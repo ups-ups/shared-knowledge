@@ -18,7 +18,7 @@ PC 以外のツール（プリンタ・DAW・楽器など）は [`../tools/`](..
 | `desk-win` | 日常開発・ローカル ComfyUI | Windows 11 | RTX 3050 OEM / 8 GB | ~64 GB | 画像生成は可、動画ローカルは重い想定 | 2026-09-19 |
 | `elitedesk-800-g4` | （未記入） | （未記入） | iGPU | 16 GB | NVMe 128 GB + HDD 500 GB / i3-9100T | 2026-09-19 |
 | `prodesk-400-g4` | （未記入） | （未記入） | iGPU | 12 GB | NVMe 128 GB / i5-8500T | 2026-09-19 |
-| `aopen-de3250` | （未記入） | （未記入） | Intel HD（内蔵） | 8 GB | 4→8 GB 増設済み。他は標準構成 | 2026-09-19 |
+| `aopen-de3250` | 投資分析・常時通電 | Debian 13 + XFCE | Intel HD（内蔵） | 8 GB | 4→8 GB 増設。入力不能は XFCE ショートカットが主因 | 2026-09-19 |
 | `nec-mate-mk32vcx` | （未記入） | （未記入） | iGPU | 4 GB | m.2 SATA 128 GB + HDD 240 GB / i3-6100T | 2026-09-19 |
 | `thinkcentre-m93` | （未記入） | （未記入） | iGPU | 8 GB | SSD 480 GB / i5-4590T | 2026-09-19 |
 
