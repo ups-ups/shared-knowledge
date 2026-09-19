@@ -1,0 +1,485 @@
+「フリーズではないがキー・クリックが効かない」「Ctrl+Alt+Del は効く」という症状は、**カーネルやマシン全体ではなく、X11（デスクトップ）側で入力がブロックされている**ときによく出ます。HP EliteDesk 800 G5 + Debian 13 + XFCE でも同様の報告があります。
+
+
+
+## まず症状を切り分ける
+
+
+
+発生したとき、次を確認してください。
+
+
+
+| 確認項目 | 意味 |
+
+|---------|------|
+
+| マウスは動くがクリックだけ効かない | X11 の「入力 grab」が疑わしい |
+
+| キーもマウスも完全に無反応 | USB 省電力・ドライバ問題の可能性 |
+
+| Ctrl+Alt+F3 で TTY に切り替えられる | カーネルは正常。X セッション側の問題 |
+
+| 画面は動いている（動画再生など） | 完全フリーズではない |
+
+
+
+---
+
+
+
+## 即効性のある対処（発生時）
+
+
+
+TTY（`Ctrl+Alt+F3` など）に切り替えてログインし、次を試します。
+
+
+
+```bash
+
+# 入力を掴んでいるプロセスをログに出す
+
+DISPLAY=:0 xdotool key XF86LogGrabInfo
+
+grep -i grab /var/log/Xorg.0.log | tail -20
+
+```
+
+
+
+grab しているプロセス名が出たら、それを終了します。
+
+
+
+```bash
+
+# 例: rofi やダイアログが掴んでいる場合
+
+pkill rofi
+
+# または
+
+DISPLAY=:0 xdotool key XF86Ungrab
+
+```
+
+
+
+セッションを再起動する場合:
+
+
+
+```bash
+
+# XFCE セッションの再起動（ログアウト相当）
+
+pkill -u $USER xfce4-session
+
+```
+
+
+
+---
+
+
+
+## よくある原因と恒久対策
+
+
+
+### 1. XFCE コンポジタ（最も試す価値が高い）
+
+
+
+設定 → ウィンドウマネージャの調整 → コンポジタ → **「コンポジタを表示」をオフ**
+
+
+
+または:
+
+
+
+```bash
+
+xfconf-query -c xfwm4 -p /general/use_compositing -s false
+
+```
+
+
+
+### 2. USB 自動サスペンド（HP デスクトップで多い）
+
+
+
+キーボード・マウスが USB 接続の場合、省電力で入力が止まることがあります。
+
+
+
+`/etc/default/grub` の `GRUB_CMDLINE_LINUX` に追加:
+
+
+
+```
+
+usbcore.autosuspend=-1
+
+```
+
+
+
+その後:
+
+
+
+```bash
+
+sudo update-grub
+
+sudo reboot
+
+```
+
+
+
+### 3. Intel グラフィックス（EliteDesk 800 G5 は Intel 内蔵 GPU）
+
+
+
+`/etc/default/grub` に追加して試す:
+
+
+
+```
+
+i915.enable_psr=0
+
+```
+
+
+
+または:
+
+
+
+```
+
+i915.enable_guc=0
+
+```
+
+
+
+PSR（Panel Self Refresh）や GuC の不具合で入力が途切れる事例があります。
+
+
+
+### 4. Debian 13 固有の報告（フォーラム）
+
+
+
+Debian 13 + XFCE で、**キー入力が遅延・無視される**報告が複数あります（Firefox、Thunderbird 使用時など）。対策として:
+
+
+
+```bash
+
+sudo apt update && sudo apt full-upgrade
+
+```
+
+
+
+カーネル 6.12 でも改善しない場合、**別カーネル（6.6 LTS など）を試す**価値があります。
+
+
+
+```bash
+
+sudo apt install linux-image-amd64
+
+# または明示的に
+
+sudo apt install linux-image-6.6-amd64
+
+```
+
+
+
+### 5. 入力ドライバの確認
+
+
+
+```bash
+
+sudo apt install --reinstall xserver-xorg-input-libinput
+
+```
+
+
+
+### 6. スクリーンセーバー・ロック画面
+
+
+
+見えないロック画面が入力を掴んでいることがあります。
+
+
+
+```bash
+
+xfconf-query -c xfce4-screensaver -p /saver/enabled -s false
+
+xfconf-query -c xfce4-screensaver -p /lock/enabled -s false
+
+```
+
+
+
+一時的に無効化して再発するか確認してください。
+
+
+
+### 7. 特定アプリが grab している
+
+
+
+次が原因になることがあります:
+
+
+
+- Rofi / dmenu 系ランチャー
+
+- クリップボードマネージャ
+
+- スクリーンショットツール
+
+- 一部のブラウザ拡張（フルスクリーン時）
+
+
+
+`XF86LogGrabInfo` で出たプロセス名をメモし、再発パターンと照合します。
+
+
+
+---
+
+
+
+## ログの収集（原因特定用）
+
+
+
+次回発生時に TTY から:
+
+
+
+```bash
+
+# 直近のエラー
+
+journalctl -b | grep -iE 'error|fail|input|usb|i915|xfce' | tail -50
+
+
+
+# Xorg ログ
+
+grep -iE 'grab|error|EE' /var/log/Xorg.0.log | tail -30
+
+
+
+# USB デバイス状態
+
+lsusb -t
+
+```
+
+
+
+別ターミナルで常時監視:
+
+
+
+```bash
+
+sudo dmesg -w
+
+```
+
+
+
+発生直前に USB や i915 のメッセージが出ていれば、そこを手がかりにできます。
+
+
+
+---
+
+
+
+## おすすめの試行順序
+
+
+
+1. **コンポジタをオフ**（設定変更のみ、再起動不要）
+
+2. **`usbcore.autosuspend=-1`** を GRUB に追加
+
+3. 再発時に **`xdotool key XF86LogGrabInfo`** で grab 元を特定
+
+4. **`i915.enable_psr=0`** を試す
+
+5. それでも続く場合は **カーネル変更** または **Wayland セッション**（XFCE は基本 X11 なので、一時的に GNOME Wayland 等で切り分け）
+
+
+
+---
+
+
+
+## 補足
+
+
+
+- **Ctrl+Alt+Del が効く** = システムは生きているので、ハード故障よりソフトウェア側の可能性が高いです。
+
+- マウスは動くがクリックだけ効かない場合は、**X11 の入力 grab** が最も疑わしいです。
+
+- 完全にキー・マウスが止まる場合は、**USB 省電力**を先に疑うのがよいです。
+
+
+
+再発時に `XF86LogGrabInfo` の結果（どのプロセスが grab しているか）や、`journalctl` / `dmesg` の該当行が分かれば、原因をさらに絞り込めます。必要ならそのログを共有してください。
+
+内容は妥当です。症状の切り分けも、対処の優先順位も筋が通っています。
+
+Ctrl+Alt+Del は効くがキー・クリックが効かないのは、カーネル全体のフリーズではなく X11 セッション側で入力がブロックされているときの典型パターンです。HP EliteDesk 800 G5 + Debian 13 + XFCE でも、同様の報告があります。
+
+症状の整理
+確認項目	意味
+マウスは動くがクリックだけ効かない
+X11 の入力 grab が疑わしい
+キーもマウスも完全に無反応
+USB 省電力・ドライバ問題の可能性
+Ctrl+Alt+F3 で TTY に切り替えられる
+カーネルは正常。X セッション側の問題
+画面は動いている（動画再生など）
+完全フリーズではない
+RDPproblem にある _SB._OSC の ACPI エラーとは 別件 です。ACPI エラーは起動時のファームウェア警告で、入力 grab とは直接関係しません。
+
+再発時の即効対処（TTY から）
+# grab しているプロセスをログに出す
+DISPLAY=:0 xdotool key XF86LogGrabInfo
+grep -i grab /var/log/Xorg.0.log | tail -20
+# 解除を試す
+DISPLAY=:0 xdotool key XF86Ungrab
+# セッション再起動
+pkill -u $USER xfce4-session
+xdotool がなければ: sudo apt install xdotool
+
+恒久対策（試す順）
+コンポジタをオフ（再起動不要・リスク低）
+
+xfconf-query -c xfwm4 -p /general/use_compositing -s false
+USB 自動サスペンド無効 — /etc/default/grub の GRUB_CMDLINE_LINUX に追加:
+
+usbcore.autosuspend=-1
+その後 sudo update-grub && sudo reboot
+
+Intel i915（800 G5 は内蔵 GPU）— 同様に GRUB へ:
+
+i915.enable_psr=0
+改善しなければ i915.enable_guc=0 も試す
+
+再発時に grab 元を特定 — XF86LogGrabInfo の結果をメモ
+
+それでも続く場合 — カーネル変更（6.6 LTS など）や Wayland セッションで切り分け
+
+補足
+マウスだけ動いてクリックが効かない → grab が最も疑わしい
+完全に入力が止まる → USB 省電力を先に疑う
+RDP 経由で接続している場合は、ローカル X11 と xrdp のどちらで再現するかも切り分けに有効です
+この内容を RDPproblem に追記する、GRUB 設定の具体的な編集、再発時のログ解析など、必要なら続けて対応できます。
+
+いまこのマシンでも適用するべきか考えて
+
+結論：EliteDesk 向けの対策をそのまま全部入れる必要はありません。 このマシン（DE3250）の構成を見ると、すでに効いているもの・当てはまらないもの・別途見るべきものが分かれます。
+
+このマシンの現状
+項目	状態
+機種
+AOPEN DE3250（Atom / Valleyview i915）— EliteDesk 800 G5 ではない
+OS
+Debian 13 + XFCE + X11
+コンポジタ
+すでに OFF
+xrdp
+稼働中（RDPproblem の文脈と一致）
+ローカル入力
+USB キーボード/マウスは /proc/bus/input/devices に見当たらない
+GRUB
+i915.enable_rc6=0 あり → 起動ログで ignored（無効）
+ACPI _OSC
+エラーあり（RDPproblem に書いた通り、現状は無害そう）
+light-locker
+起動時に int3 でクラッシュ
+いま Cursor でローカル操作できているので、現時点で緊急の恒久対策は不要と考えてよいです。
+
+対策ごとの判断
+今すぐやらなくてよい
+コンポジタ OFF — 済み
+usbcore.autosuspend=-1 — USB 入力デバイスが見当たらない。RDP 専用運用なら優先度低
+i915.enable_psr=0 / i915.enable_guc=0 — EliteDesk 向けの新しめ Intel GPU 用。Valleyview には当てはまりにくい
+カーネル変更 — 症状が再発してからで十分
+ACPI 対策 — 起動・ログイン・操作に問題なし。BIOS 更新は任意
+症状が出たとき用に用意しておくとよい
+xdotool のインストール（grab 調査用）
+再発時の XF86LogGrabInfo / journalctl 手順
+恒久設定の変更は、再現確認後の方が安全です。
+
+今やる価値がある（小さな整理）
+GRUB の i915.enable_rc6=0 を削除
+
+新カーネルではこの GPU 向けパラメータとして認識されず、実質何もしていません。残しても害は小さいですが、効いているつもりで他を見ない原因になります。
+
+# /etc/default/grub の GRUB_CMDLINE_LINUX_DEFAULT から i915.enable_rc6=0 を削除
+sudo update-grub
+このマシンで本当に疑うべき方向
+EliteDesk の「ローカル X11 grab」より、xrdp 経由の入力停止の方が筋が通ります。
+
+xrdp サーバーが動いている
+ローカル USB 入力がほぼない
+light-locker が起動時クラッシュ（見えないロック/grab の原因になりうる）
+再発時は、ローカル tty より RDP セッション側を疑うのがよいです。
+
+# RDP セッション中に TTY から
+grep -i grab /var/log/Xorg.0.log | tail -20
+journalctl -u xrdp -u xrdp-sesman --since "10 min ago"
+light-locker が絡むなら、試しに無効化:
+
+xfconf-query -c xfce4-screensaver -p /lock/enabled -s false
+xfconf-query -c xfce4-screensaver -p /saver/enabled -s false
+おすすめの順序
+優先度	内容	理由
+今
+何もしない（現状安定）
+問題再現前の GRUB 変更は不要
+低
+無効な i915.enable_rc6=0 を GRUB から削除
+整理のみ
+再発時
+grab 調査 + xrdp ログ
+原因特定
+再発時
+light-locker / スクリーンセーバー無効化
+起動時クラッシュあり
+再発時かつ RDP 限定
+xrdp / pipewire-xrdp の設定見直し
+このマシンの本命
+再発時かつローカルも
+その時点で USB 省電力などを検討
+現状は当てはまりにくい
+まとめ： EliteDesk 向けガイドの「コンポジタ OFF」は済み。USB 省電力や PSR/GuC は、この DE3250 には今のところ優先度が低いです。再発パターン（RDP のみ / ローカルのみ / 両方）が分かれば、次に触る設定をかなり絞れます。
+
+このマシンはDE3250です。
+
+発生するときはRDPでもローカルでも両方効かなくなります。
