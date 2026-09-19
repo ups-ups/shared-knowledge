@@ -9,8 +9,8 @@ HP EliteDesk 800 G4。
 | RAM | 16 GB |
 | ストレージ | NVMe 128 GB + HDD 500 GB |
 | GPU | 内蔵（iGPU） |
-| OS | （未記入） |
-| 主な用途 | （未記入） |
+| OS | Linux(Batocera) |
+| 主な用途 | リビングゲーム機 |
 
 ## 変更履歴
 

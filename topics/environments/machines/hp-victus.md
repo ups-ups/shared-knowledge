@@ -5,8 +5,8 @@
 | 項目 | 値 |
 |------|-----|
 | OS | Windows 11 |
-| CPU | Intel（Family 6 Model 151） |
-| RAM | ~64 GB |
+| CPU | Intel（Family 6 Model 151）i7 12700F |
+| RAM | 64 GB |
 | GPU | NVIDIA GeForce RTX 3050 OEM / 8 GB VRAM |
 | 主な用途 | 開発、ローカル画像生成（ComfyUI） |
 
