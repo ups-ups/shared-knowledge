@@ -1,0 +1,361 @@
+de3250にdebian13をインストールしxfceで使っている。
+フリーズしているわけではないがキー入力、マウスクリックなど操作を受け付けない状態になることがある。
+ctrl alt delのコマンドは効く。
+対処方法は？
+
+「フリーズではないがキー・クリックが効かない」「Ctrl+Alt+Del は効く」という症状は、カーネルやマシン全体ではなく、X11（デスクトップ）側で入力がブロックされているときによく出ます。HP EliteDesk 800 G5 + Debian 13 + XFCE でも同様の報告があります。
+
+まず症状を切り分ける
+発生したとき、次を確認してください。
+
+確認項目	意味
+マウスは動くがクリックだけ効かない
+X11 の「入力 grab」が疑わしい
+キーもマウスも完全に無反応
+USB 省電力・ドライバ問題の可能性
+Ctrl+Alt+F3 で TTY に切り替えられる
+カーネルは正常。X セッション側の問題
+画面は動いている（動画再生など）
+完全フリーズではない
+即効性のある対処（発生時）
+TTY（Ctrl+Alt+F3 など）に切り替えてログインし、次を試します。
+
+# 入力を掴んでいるプロセスをログに出す
+DISPLAY=:0 xdotool key XF86LogGrabInfo
+grep -i grab /var/log/Xorg.0.log | tail -20
+grab しているプロセス名が出たら、それを終了します。
+
+# 例: rofi やダイアログが掴んでいる場合
+pkill rofi
+# または
+DISPLAY=:0 xdotool key XF86Ungrab
+セッションを再起動する場合:
+
+# XFCE セッションの再起動（ログアウト相当）
+pkill -u $USER xfce4-session
+よくある原因と恒久対策
+1. XFCE コンポジタ（最も試す価値が高い）
+設定 → ウィンドウマネージャの調整 → コンポジタ → 「コンポジタを表示」をオフ
+
+または:
+
+xfconf-query -c xfwm4 -p /general/use_compositing -s false
+2. USB 自動サスペンド（HP デスクトップで多い）
+キーボード・マウスが USB 接続の場合、省電力で入力が止まることがあります。
+
+/etc/default/grub の GRUB_CMDLINE_LINUX に追加:
+
+usbcore.autosuspend=-1
+その後:
+
+sudo update-grub
+sudo reboot
+3. Intel グラフィックス（EliteDesk 800 G5 は Intel 内蔵 GPU）
+/etc/default/grub に追加して試す:
+
+i915.enable_psr=0
+または:
+
+i915.enable_guc=0
+PSR（Panel Self Refresh）や GuC の不具合で入力が途切れる事例があります。
+
+4. Debian 13 固有の報告（フォーラム）
+Debian 13 + XFCE で、キー入力が遅延・無視される報告が複数あります（Firefox、Thunderbird 使用時など）。対策として:
+
+sudo apt update && sudo apt full-upgrade
+カーネル 6.12 でも改善しない場合、別カーネル（6.6 LTS など）を試す価値があります。
+
+sudo apt install linux-image-amd64
+# または明示的に
+sudo apt install linux-image-6.6-amd64
+5. 入力ドライバの確認
+sudo apt install --reinstall xserver-xorg-input-libinput
+6. スクリーンセーバー・ロック画面
+見えないロック画面が入力を掴んでいることがあります。
+
+xfconf-query -c xfce4-screensaver -p /saver/enabled -s false
+xfconf-query -c xfce4-screensaver -p /lock/enabled -s false
+一時的に無効化して再発するか確認してください。
+
+7. 特定アプリが grab している
+次が原因になることがあります:
+
+Rofi / dmenu 系ランチャー
+クリップボードマネージャ
+スクリーンショットツール
+一部のブラウザ拡張（フルスクリーン時）
+XF86LogGrabInfo で出たプロセス名をメモし、再発パターンと照合します。
+
+ログの収集（原因特定用）
+次回発生時に TTY から:
+
+# 直近のエラー
+journalctl -b | grep -iE 'error|fail|input|usb|i915|xfce' | tail -50
+# Xorg ログ
+grep -iE 'grab|error|EE' /var/log/Xorg.0.log | tail -30
+# USB デバイス状態
+lsusb -t
+別ターミナルで常時監視:
+
+sudo dmesg -w
+発生直前に USB や i915 のメッセージが出ていれば、そこを手がかりにできます。
+
+おすすめの試行順序
+コンポジタをオフ（設定変更のみ、再起動不要）
+usbcore.autosuspend=-1 を GRUB に追加
+再発時に xdotool key XF86LogGrabInfo で grab 元を特定
+i915.enable_psr=0 を試す
+それでも続く場合は カーネル変更 または Wayland セッション（XFCE は基本 X11 なので、一時的に GNOME Wayland 等で切り分け）
+補足
+Ctrl+Alt+Del が効く = システムは生きているので、ハード故障よりソフトウェア側の可能性が高いです。
+マウスは動くがクリックだけ効かない場合は、X11 の入力 grab が最も疑わしいです。
+完全にキー・マウスが止まる場合は、USB 省電力を先に疑うのがよいです。
+再発時に XF86LogGrabInfo の結果（どのプロセスが grab しているか）や、journalctl / dmesg の該当行が分かれば、原因をさらに絞り込めます。必要ならそのログを共有してください。
+
+xfceである。
+thinkpadキーボードと一体になっているトラックポイントのマウス機能は正常であるが、キー入力を受け付けない。
+左上の「アプリケーション」のボタンはクリックしても動作しないが、デスクトップのアイコンはダブルクリックで動作する。ファイルのダブルクリックでアプリケーションが起動する。
+各アプリケーションのメニューをクリックしても動作しない。
+テキストエディタ上など全てのアプリケーションでキー入力を受け付けない。
+
+症状の組み合わせから、原因はだいたい次の3系統に絞れます。
+
+動く	動かない
+トラックポイント（移動・一部クリック）
+キーボード全般
+デスクトップアイコンのダブルクリック
+パネル「アプリケーション」ボタン
+ファイルのダブルクリックでアプリ起動
+各アプリのメニューバー
+特に「キーボードが完全に死ぬ」「メニュー・パネルが効かない」の一方で「デスクトップのダブルクリックだけ効く」は、見えないモーダルダイアログが前面に残っているときの典型パターンです。
+
+最有力：見えないダイアログが入力を奪っている
+認証ダイアログ、保存確認、Bluetooth/ネットワーク、スクリーンセーバー、クラッシュ報告などが画面外や透明のまま残ると:
+
+キーボード入力をすべて吸う
+ダイアログの上にあるパネル・メニューバーへのクリックが届かない
+ダイアログが覆っていないデスクトップ部分だけ操作できる
+発生時の対処（TTY から）
+Ctrl+Alt+F3 で TTY に入り、自分のユーザーでログイン:
+
+export DISPLAY=:0
+# 開いているウィンドウ一覧
+wmctrl -l
+# 怪しいダイアログを全部閉じる
+wmctrl -l | grep -iE 'polkit|auth|password|dialog|zenity|notify' 
+# 見つかったウィンドウIDで:
+wmctrl -ic <ウィンドウID>
+# またはアクティブウィンドウを強制終了
+xdotool getactivewindow windowkill
+パッケージがなければ:
+
+sudo apt install wmctrl xdotool
+それでも戻らなければ、X の入力 grab を確認:
+
+xdotool key XF86LogGrabInfo
+grep -i grab /var/log/Xorg.0.log | tail -10
+grab しているプロセス名が出たら TTY から pkill <プロセス名> で終了します。
+
+切り分け：TTY でキーボードが効くか
+これが最重要です。
+
+ケース A — TTY ではキーが効く
+→ Xfce / X11 セッション側の問題（上記のダイアログ、grab、入力メソッドなど）
+
+# 入力メソッドを疑う場合
+pkill -u $USER ibus-daemon
+pkill -u $USER fcitx5
+# パネル再起動（パネル単独の不具合）
+DISPLAY=:0 xfce4-panel -r
+ケース B — TTY でもキーが効かない
+→ ThinkPad 内蔵キーボードのドライバ／ハード側（トラックポイントは別デバイスなので動き続けることがある）
+
+# キーボードイベントがカーネルに届いているか
+sudo apt install evtest
+sudo evtest
+# → "AT Translated Set 2 keyboard" を選んでキーを押す
+evtest でイベントが出ない → 物理キーの接触不良、Fn/Ctrl 系の押しっぱなし、ファームウェア
+evtest で出るが X だけ効かない → X / xkb の問題
+よくある原因と対策
+1. 修飾キー（Ctrl / Alt / Shift / Super）の押しっぱなし
+ソフトウェア上で「押されたまま」になると、キー入力やクリックの挙動がおかしくなります。
+
+発生時に各キーを 10回以上 強く叩く（ThinkPad は Fn / Esc も）。
+
+TTY から解放を試す:
+
+export DISPLAY=:0
+xdotool keyup Control_L Control_R Alt_L Alt_R Shift_L Shift_R Super_L Super_R
+2. XFCE パネルの不具合（Alt+F11 全画面の副作用）
+全画面表示のオン/オフ後にパネルだけクリック不能になる既知の事例があります。
+
+DISPLAY=:0 xfce4-panel -r
+3. 日本語入力（IBus / Fcitx5）
+デーモンが固まってキーボードを握ることがあります。
+
+pkill -u $USER ibus-daemon
+pkill -u $USER fcitx5
+# 設定 → IBus/Fcitx を一度オフにして再現するか確認
+4. XKB キーマップの破損
+grep -i xkb /var/log/Xorg.0.log
+sudo apt install --reinstall xkeyboard-config xserver-xorg-input-libinput
+ログに Failed to load keymap があればこれが原因です。
+
+5. ThinkPad + Debian 13 カーネル
+サスペンド復帰後にキーボードだけ死ぬ報告があります。EliteDesk 本体に ThinkPad キーボードを繋いでいるなら USB 省電力も疑います。
+
+/etc/default/grub の GRUB_CMDLINE_LINUX に追加:
+
+usbcore.autosuspend=-1
+sudo update-grub && sudo reboot
+再発時に集めたい情報
+TTY から次を実行し、出力を保存してください。
+
+# 1. ウィンドウ一覧（不可視ダイアログの確認）
+DISPLAY=:0 wmctrl -l
+# 2. 入力デバイス
+DISPLAY=:0 xinput list
+# 3. キーボードのイベントテスト（キーを数回押す）
+DISPLAY=:0 xinput test-xi2 --root
+# 4. 直近の Xorg エラー
+grep -iE 'error|grab|xkb|keyboard' /var/log/Xorg.0.log | tail -30
+# 5. カーネル側
+dmesg | tail -30
+試す順序（おすすめ）
+TTY で wmctrl -l → 怪しいダイアログを閉じる（最も症状に合う）
+修飾キーを連打 + xdotool keyup ...
+xfce4-panel -r でパネル再起動
+IBus/Fcitx5 を停止して再現するか確認
+TTY で evtest → カーネル層か X 層かを切り分け
+続くなら usbcore.autosuspend=-1 と xkeyboard-config の再インストール
+補足
+トラックポイントだけ生きてキーボードが死ぬのは、Linux ではキーボードとポインタが別入力デバイスとして扱われるため、よくある切り分けパターンです。
+デスクトップのダブルクリックだけ効くのは、**全面フリーズではなく「特定のウィンドウ／レイヤーが入力を独占している」**ときの挙動と一致します。
+次に教えてほしいのは1点だけです。症状が出ているとき Ctrl+Alt+F3 の TTY でキーボードは使えますか？ ここで A/B が決まり、対処の方向がはっきりします。
+
+対処方法より、抜本的な恒久対策を知りたい。
+
+症状から見ると、一時対処ではなく どの層に原因があるかを一度決めて、その層を恒久的に変えるのが近道です。あなたの症状（キーボード全停止・トラックポイントは動く・パネル/メニューは効かない・デスクトップのダブルクリックは効く）は、大きく次の2系統に分かれます。
+
+まず一度だけやる切り分け（恒久対策の選択肢が変わる）
+症状が出ているとき Ctrl+Alt+F3 で TTY に入り:
+
+sudo evtest
+# → "AT Translated Set 2 keyboard" または ThinkPad キーボードを選択してキーを押す
+evtest の結果	根本原因の層	恒久対策の方向
+キーイベントが出ない
+カーネル／USB／PS/2 ドライバ
+GRUB パラメータ、BIOS、接続方式の変更
+キーイベントは出る
+X11 / XFCE セッション
+Wayland 移行、または X11 入力スタックの除去
+この1回の確認で、以降の恒久対策がほぼ決まります。
+
+恒久対策 A：X11 をやめる（最も抜本的）
+あなたの症状（パネルやメニューだけ効かない、キーだけ死ぬ）は、X11 の入力 grab / フォーカス独占でよく起きます。X11 ではアプリが入力を「掴む」設計があり、構造的に再発します。
+
+選択肢 1 — XFCE を維持し Wayland に移行（Debian 13 向け）
+Debian 13 の XFCE 4.20 は labwc ベースの Wayland セッションがあります。X11 の grab 問題は原理的に消えます。
+
+sudo apt install labwc
+# ログイン画面で "Xfce Session (Wayland)" を選ぶ
+# または: startxfce4 --wayland
+注意点:
+
+まだ 実験的（スクリーンセーバー、一部プラグイン、キーボード設定 UI が未対応）
+日本語入力は labwc 側の XKB 設定が必要（~/.config/xfce4/labwc/environment）
+「XFCE の軽さは欲しいが X11 の入力問題は二度と嫌」なら、現時点で最も XFCE に近い恒久策です。
+
+選択肢 2 — GNOME Wayland / KDE Plasma Wayland に移行（最も安定）
+入力の安定性を最優先するなら、Debian 13 公式の GNOME Wayland か KDE Plasma Wayland が最も成熟しています。
+
+sudo apt install gnome   # または kde-plasma
+# ログイン画面で "GNOME" / "Plasma (Wayland)" を選択
+デスクトップの見た目は変わりますが、入力 grab 系の再発は実質なくなります。恒久対策としては最も確実です。
+
+恒久対策 B：カーネル層を固定する（evtest でキーが出ない場合）
+ThinkPad キーボードは、キーボード（PS/2/USB）とトラックポイントが 別デバイスとして扱われます。片方だけ死ぬのはこの構成でよくあります。
+
+/etc/default/grub に恒久追加
+# USB 接続の ThinkPad キーボード向け
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash usbcore.autosuspend=-1"
+# PS/2 接続 or ドック経由の場合、追加で試す
+# GRUB_CMDLINE_LINUX_DEFAULT="quiet splash i8042.nopnp=1 i8042.noloop=1 i8042.reset=1"
+sudo update-grub && sudo reboot
+PS/2 トラックポイント競合の恒久設定
+/etc/modprobe.d/psmouse.conf:
+
+options psmouse synaptics_intertouch=0
+sudo update-initramfs -u && sudo reboot
+カーネルを安定版に固定
+Debian 13 の 6.12 系で入力不具合の報告があります。恒久策として 6.6 LTS 系に固定する方法があります。
+
+sudo apt install linux-image-6.6-amd64
+# 起動時 GRUB で 6.6 を選び、問題が消えることを確認
+# 確認後、6.12 の自動更新を止める:
+sudo apt-mark hold linux-image-amd64
+BIOS 更新（HP EliteDesk 800 G5）
+HP サポートページ から 最新 BIOS（LMT 系） を適用してください。USB/PS/2 周りの電源管理不具合は BIOS で直ることがあります。
+
+恒久対策 C：X11 + XFCE を維持する場合の「再発源の除去」
+Wayland に移れない場合、再発するコンポーネントを恒久的に無効化します。
+
+1. コンポジタを恒久的にオフ
+xfconf-query -c xfwm4 -p /general/use_compositing -s false
+2. スクリーンセーバー／ロックを無効化
+見えないロック画面が入力を奪う事例が多いです。
+
+xfconf-query -c xfce4-screensaver -p /saver/enabled -s false
+xfconf-query -c xfce4-screensaver -p /lock/enabled -s false
+sudo apt remove xfce4-screensaver   # 不要なら完全削除
+3. 入力メソッドを一本化
+IBus と Fcitx の混在は grab の温床です。どちらか一方だけに固定し、もう一方は削除します。
+
+# 日本語不要なら両方削除
+sudo apt remove ibus fcitx5
+# 日本語必要なら Fcitx5 だけ残す例
+sudo apt remove ibus
+# 設定 → 入力メソッド → Fcitx5 のみ
+4. パネルの「アプリケーション」ボタンを Whisker Menu に置き換え
+Applications Menu プラグインは grab 問題の報告があります。パネル右クリック → パネル → 項目の追加 → Whisker Menu を追加し、旧 Applications Menu を削除します。
+
+5. 自動起動の整理
+設定 → セッションとスタートアップ → 自動起動 で、次を無効化または削除:
+
+xcape（Super キー変換 — ショートカット競合の原因）
+クリップボードマネージャ
+不明なトレイアプリ
+恒久対策 D：接続方式の変更（ハードウェア層）
+EliteDesk 800 G5 に ThinkPad キーボードを繋いでいる場合:
+
+現在の接続	恒久対策
+PS/2 変換アダプタ経由
+USB 直結の ThinkPad キーボードに替える（最も効果が高い）
+USB ハブ経由
+マザーボード直結の USB ポートに接続
+無線（USB レシーバー）
+別ポート／有線に切り替えて再発を確認
+PS/2 変換は i8042 ドライバの不安定さが構造的な原因になりやすく、ソフトでは完全に直せないことがあります。
+
+推奨する恒久対策の優先順位
+あなたの症状パターンを踏まえた推奨順:
+
+1. evtest で TTY 切り分け（1回だけ）
+       ↓
+2-A. TTYでもキー死 → USB直結 + usbcore.autosuspend=-1 + BIOS更新
+                      それでも続く → カーネル 6.6 固定
+       ↓
+2-B. TTYではキーOK → Wayland 移行（GNOME > XFCE+labwc > KDE）
+                      XFCE維持なら C の恒久無効化を全部適用
+最も抜本的で再発が少ないのは Wayland 移行です。XFCE の見た目を維持したいなら XFCE 4.20 + labwc Wayland、安定最優先なら GNOME Wayland です。
+
+XFCE + X11 を続ける場合は、コンポジタ・スクリーンセーバー・IBus・Applications Menu を恒久的に除去するセットが現実的な上限で、grab 系の再発はゼロにはなりません。
+
+報告して恒久修正を待つ（コミュニティ側）
+Debian 13 + XFCE で同様の報告が複数あります。恒久修正は上流に依存する部分もあります。
+
+# バグ報告用ログ（症状発生直後に1回取得）
+sudo reportbug --attach=/var/log/Xorg.0.log xserver-xorg
+カーネル・libinput・XFCE の修正が入るまで、上記の Wayland 移行かカーネル固定が実用的な恒久策になります。
+
+どの恒久策を選ぶかは evtest の結果でほぼ決まります。可能なら、次に「TTY で evtest をしたときキーイベントが出るか／出ないか」だけ教えてください。そこから、あなたの環境向けに1つに絞った設定手順を書けます。

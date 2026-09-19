@@ -4,13 +4,14 @@
 
 ## 読むとき
 
-- まず該当 `topics/<slug>/` を探す。なければ `inbox.md` と `refs/` を見る
+- まず該当 `topics/<slug>/` を探す。なければ `inbox.md`・`inbox/raw/`・`refs/` を見る
 - `outdated:` 付きは参考に留め、代替パスを優先する
 
 ## 書くとき
 
 - 秘密・認証情報・個人情報は書かない
-- 新規は短く `inbox.md` へ。同じテーマが 2〜3 回出たら `topics/<slug>/` を切る
+- 新規は短く `inbox.md` へ。長い雑多ログは `inbox/raw/` へ（日付付きファイル名）
+- 同じテーマが 2〜3 回出たら `topics/<slug>/` を切る
 - トピックの入口は `topics/<slug>/README.md`
 - 事実と仮説を混ぜない。仮説には `hypothesis:` と日付を付ける
 - 他リポ固有の手順は、そのリポの docs に置き、ここには要約とリンクだけ残す
