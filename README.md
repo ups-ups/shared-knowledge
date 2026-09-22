@@ -2,6 +2,9 @@
 
 プロジェクト横断で使う共有ナレッジ置き場。
 
+- **正本（GitHub）:** https://github.com/ups-ups/shared-knowledge
+- **clone:** `git clone https://github.com/ups-ups/shared-knowledge.git`
+
 `ideas` が壁打ち・未整理メモなら、ここは **複数リポから参照する前提の整理済み知識**（方針・用語・手順・参照リンク）を置く。
 
 ## 使い方
