@@ -16,13 +16,27 @@
 | Batocera | http://batocera:8384/ | ゲーム機 |
 | GammaOS（Android） | [API 直書き URL](#gammaos-api-直書き) | 携帯ゲーム機（Syncthing-Fork） |
 
+## 方針: GitHub に集約
+
+**運用の正本は GitHub。** 手順・URL・パス・機器情報は [ups-ups/shared-knowledge](https://github.com/ups-ups/shared-knowledge) に書き、マシン間で `git pull` して揃える。チャットや各端末のメモに散らさない。
+
+Syncthing / SMB は **Git に載せられない大きなゲームファイル** 専用。Android のストレージパス問題（`/storage/00000000-.../Game` など）があるため、設定や知識まで Syncthing に寄せない。
+
 ## 役割分担
 
-| 手段 | 用途 |
-|------|------|
-| **GitHub** | コード・テキストリポジトリの履歴、バックアップ |
-| **Syncthing** | 自宅ゲーム機間の BIOS / ROM / セーブ同期 |
-| **SMB（Samba）** | Windows からマスター置き場への直接の出し入れ |
+| 手段 | 用途 | 正本か |
+|------|------|--------|
+| **GitHub** | コード、共有ナレッジ、手順・URL・パス、テキスト設定 | **正本** |
+| **Syncthing** | ROM / BIOS / セーブ（バイナリ・大容量） | DE3250 USB-HDD |
+| **SMB（Samba）** | Windows からマスター置き場への出し入れ | DE3250 USB-HDD |
+
+### GitHub に載せる / 載せない
+
+| 載せる | 載せない |
+|--------|----------|
+| この README、機器 IP、Web UI URL、同期パス | ROM 本体、大きなセーブ |
+| `~/src/` 以下のコードリポジトリ | `.env`、API キー（例外: 自宅 LAN 限定の直書き URL は運用判断で README に可） |
+| 運用ルール、トラブル手順 | `corp-analysis/` など別経路のデータ |
 
 ## マスター置き場（USB-HDD）
 
