@@ -78,11 +78,11 @@ Winlator はサイドロードできるので、Google なしの Lite でも動�
 | 1.2.1 | 2025-12 | D8300 の 120 Hz / BFI、4K 外部出力の半分解像度、Magisk 更新。Air X の SoC とは別 |
 | 1.2.2 | 2026-02 | 二画面の DualStack（画面ごとの音量・輝度・IME）。Launch Guard。システム全体の CRT/LCD シェーダ。Syncthing の制限ディレクトリ許可 |
 | 1.3.0 / 1.3.1 | 2026-04 | **Nano**（最小起動で XMB を先に出し、裏で Android を起こす）。**本体を消さずに書く OTA**。**GammaPad**（物理パッドの取り込み、ボタン割当、画面タッチへのマッピング、アプリ別プロファイル）。設定に Toolbox（隠し `persist.gammaos.*`）。ロック画面は既定オフ。`adbd` は起動時から root |
-
-XMB（XrossMediaBar）は PSP / PS3 のホームメニュー。横にカテゴリ（設定、写真、音楽、動画、ゲーム、ネットワーク）、縦に項目が並ぶ。GammaOS Nano のホームは、この PS3 版を自前で描き直したもの。Android の通常ランチャーとは別画面。
 | 1.3.2 | 2026-05 | ソフト Keymaster のロック解除ループ、Nano 起動時の資格情報自動解除、Rockchip の HDMI / DP 音声 |
 | 1.4 | 2026-07 | XMB を作り直し。音楽・動画・写真・ゲームパッド向けブラウザを同梱。SMB / NFS / WebDAV / FTP をローカルストレージとしてマウント。内蔵 DS（DraStic-nano、RetroAchievements、Quick Resume）。RetroArch のシェーダプリセットを画面全体に載せられる。スワップファイル。スリープ中の Bluetooth ウェイクロック（時間あたり約 4–5%）を切る修正 |
 | 1.4.1 | 2026-08 | テーマ（XMB / DSi / Minima）、お気に入りとコレクション、箱絵、MTP でのファイル転送、Widevine L3 の互換トグル、通常 Android 側の設定と通知シェード |
+
+XMB（XrossMediaBar）は PSP / PS3 のホームメニュー。横にカテゴリ（設定、写真、音楽、動画、ゲーム、ネットワーク）、縦に項目が並ぶ。GammaOS Nano のホームは、この PS3 版を自前で描き直したもの。Android の通常ランチャーとは別画面。
 
 Air X で Winlator を使うなら、届いても普段遊ぶのは通常 Android 側になる。Nano は「起動してすぐ XMB」で、メニューから通常 Android へ再起動する構成。GammaPad の画面マッピングは、純正にあるキーマッピングに近いもの。
 
@@ -92,7 +92,10 @@ outdated: 2026-09-24 — 公開の GammaOSNext は README だけ、という記�
 
 [GammaOSNextDistribution-14](https://github.com/TheGammaSqueeze/GammaOSNextDistribution-14)（`develop`、2026-09-20 時点）が LineageOS 21 / Android 14 の GSI ソース。`frameworks/native/services/gammapad` や Nano のコミットがある。ビルド対象は `build.sh` の `lineage_arm64_bvN`（汎用 Treble の system イメージ）。`device/` に Mangmi / SM6115 / MQ65 / MQ66 は無い。`kernel/` は configs と prebuilts だけ。
 
+[v1.2.0-MANGMIAIRX](https://github.com/TheGammaSqueeze/GammaOSNext/releases/tag/v.1.2.0-MANGMIAIRX) のページ末尾にある Source code（zip / tar.gz）は、GitHub がそのタグから自動で作るアーカイブ。中身は `LICENSE`、`README.md`、`MAGISK_ES-DE_fix.zip` の 3 ファイル（展開後約 25KB、コミットは README の RG Cube リンク更新）。MQ65 / MQ66 の `.7z` は焼く用のファーム本体。
+
 Air X のパネル、ファン、ジャック、GPU ドライバは v1.2 の QFIL 一式（vendor / boot）側に残る。このツリーから作れるのは新しい system イメージで、それを既存の v1.2 の上に載せて起動するかは未確認。この作業環境の空きは約 37GB で、ツリーの取得とフルビルドには足りない。
+
 - パッケージは **Full**（GApps あり）と **Lite**（Google サービスなし）。開発側の推奨はゲームと電池なら Lite。
 - v1.2.0 の記載: 新しい LCD、MQ65 / MQ66 を含む改訂、ストレージ容量表示、ES-DE のテーマ取得、GammaEQ。デバイス向けとして GPU ドライバを 2025 年版に更新（純正は 2024）、Netflix DRM、パネル 60 Hz、ガバナーとサーマル、Lite の電池。
 - 既存の GammaOS から v1.2.0 へはデータを残す更新手順がある。初回の QFIL は全消去。
