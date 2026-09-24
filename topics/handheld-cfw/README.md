@@ -78,6 +78,8 @@ Winlator はサイドロードできるので、Google なしの Lite でも動�
 | 1.2.1 | 2025-12 | D8300 の 120 Hz / BFI、4K 外部出力の半分解像度、Magisk 更新。Air X の SoC とは別 |
 | 1.2.2 | 2026-02 | 二画面の DualStack（画面ごとの音量・輝度・IME）。Launch Guard。システム全体の CRT/LCD シェーダ。Syncthing の制限ディレクトリ許可 |
 | 1.3.0 / 1.3.1 | 2026-04 | **Nano**（最小起動で XMB を先に出し、裏で Android を起こす）。**本体を消さずに書く OTA**。**GammaPad**（物理パッドの取り込み、ボタン割当、画面タッチへのマッピング、アプリ別プロファイル）。設定に Toolbox（隠し `persist.gammaos.*`）。ロック画面は既定オフ。`adbd` は起動時から root |
+
+XMB（XrossMediaBar）は PSP / PS3 のホームメニュー。横にカテゴリ（設定、写真、音楽、動画、ゲーム、ネットワーク）、縦に項目が並ぶ。GammaOS Nano のホームは、この PS3 版を自前で描き直したもの。Android の通常ランチャーとは別画面。
 | 1.3.2 | 2026-05 | ソフト Keymaster のロック解除ループ、Nano 起動時の資格情報自動解除、Rockchip の HDMI / DP 音声 |
 | 1.4 | 2026-07 | XMB を作り直し。音楽・動画・写真・ゲームパッド向けブラウザを同梱。SMB / NFS / WebDAV / FTP をローカルストレージとしてマウント。内蔵 DS（DraStic-nano、RetroAchievements、Quick Resume）。RetroArch のシェーダプリセットを画面全体に載せられる。スワップファイル。スリープ中の Bluetooth ウェイクロック（時間あたり約 4–5%）を切る修正 |
 | 1.4.1 | 2026-08 | テーマ（XMB / DSi / Minima）、お気に入りとコレクション、箱絵、MTP でのファイル転送、Widevine L3 の互換トグル、通常 Android 側の設定と通知シェード |
