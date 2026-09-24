@@ -2,6 +2,7 @@
 
 未分類メモ。上が新しい。
 
+- 2026-09-25 初代タイムクライシスはアーケードモードなら筐体、Special は家庭用 → [`topics/light-guns/README.md`](./topics/light-guns/README.md)
 - 2026-09-25 ガンバリコレクションのタイムクライシスは PS 版のまま、と Wikipedia を書く → [`topics/light-guns/README.md`](./topics/light-guns/README.md)
 - 2026-09-25 ライトガン移植版の残り方（筐体どおり / 落ちる / 未確認）を書いた → [`topics/light-guns/README.md`](./topics/light-guns/README.md)
 - 2026-09-25 Batocera ライトガン表の注釈を国内版・名作のリストへ移した → [`topics/light-guns/README.md`](./topics/light-guns/README.md)
