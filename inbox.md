@@ -2,6 +2,16 @@
 
 未分類メモ。上が新しい。
 
+- 2026-09-25 アスカ見参と月影村の GameNative 詳細メモ → [`topics/handheld-cfw/gamenative-shiren.md`](./topics/handheld-cfw/gamenative-shiren.md)
+- 2026-09-25 月影村 Windows 版は VirGL + WineD3D、Windows 98、640×480 → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
+- 2026-09-25 アスカ見参 for Windows は VirGL + WineD3D、640×480、AsfPc.exe → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
+- 2026-09-25 Air X は PSP 以下を本線にする。GC / PS2 は一部だけ → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
+- 2026-09-25 Air X の GameNative / Winlator は Adreno 610 と 4GB では軽いタイトル限定 → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
+- 2026-09-24 Air X v1.2 の Source code（zip）は README タグ。ファームは .7z → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
+- 2026-09-24 GammaOS のソースは GammaOSNextDistribution-14（汎用 GSI）。Air X のデバイスツリーは無い → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
+- 2026-09-24 GammaOS は v1.2 以降 v1.4.1 まで進んだが Air X ビルドは v1.2.0 のまま → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
+- 2026-09-24 Air X は Winlator（Wine）を残すため Android を本線にする → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
+- 2026-09-24 RG35XX H と Mangmi Air X のカスタムファーム比較 → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
 - 2026-09-22 OpenClaw 導入見送り（Cursor Worker + cron で十分） → [`topics/openclaw/README.md`](./topics/openclaw/README.md)
 - 2026-09-22 運用の正本を GitHub（shared-knowledge）に集約する方針を明記 → [`topics/syncthing/README.md`](./topics/syncthing/README.md)
 - 2026-09-22 GammaOS の Syncthing 同期パス `/storage/00000000-0000-0000-0000-000000000001/Game` を確認 → [`topics/syncthing/README.md`](./topics/syncthing/README.md)
