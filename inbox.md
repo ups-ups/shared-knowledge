@@ -2,6 +2,7 @@
 
 未分類メモ。上が新しい。
 
+- 2026-09-25 アスカ見参 for Windows は VirGL + WineD3D、640×480、AsfPc.exe → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
 - 2026-09-25 Air X は PSP 以下を本線にする。GC / PS2 は一部だけ → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
 - 2026-09-25 Air X の GameNative / Winlator は Adreno 610 と 4GB では軽いタイトル限定 → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
 - 2026-09-24 Air X v1.2 の Source code（zip）は README タグ。ファームは .7z → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
