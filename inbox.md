@@ -2,6 +2,7 @@
 
 未分類メモ。上が新しい。
 
+- 2026-09-24 GammaOS は v1.2 以降 v1.4.1 まで進んだが Air X ビルドは v1.2.0 のまま → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
 - 2026-09-24 Air X は Winlator（Wine）を残すため Android を本線にする → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
 - 2026-09-24 RG35XX H と Mangmi Air X のカスタムファーム比較 → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
 - 2026-09-22 OpenClaw 導入見送り（Cursor Worker + cron で十分） → [`topics/openclaw/README.md`](./topics/openclaw/README.md)
