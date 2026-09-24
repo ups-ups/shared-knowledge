@@ -59,7 +59,7 @@
 - Crypt Killer の日本名はヘンリーエクスプローラーズ。MAME ✔ / ✔、注釈なし。PS: v39+, need nuvee patch with v38 and under。サターンは ✔、ゲーム内再キャリブレーション
 - NES: Laser Invasion = ガンサイト。射撃 ✔、動作 ✔、注釈なし。Bayou Billy = マッドシティ。射撃ゲーム欄は ✘、動作 ✔。Second stage only
 - SNES: Battle Clash = スペースバズーカ。射撃 ✔、動作 ✔、注釈なし。Yoshi's Safari = ヨッシーのロードハンティング。射撃 ✔、動作 ✔、注釈なし
-- PS2 の Gunvari Collection + Time Crisis は日本のガンバリ・コレクション（ポイントブランク集）。✔、注釈なし。PS2 共通で v37+、recalibrate shot
+- PS2 の Gunvari Collection + Time Crisis は日本のガンバリ・コレクション（ポイントブランク 3 作とタイムクライシス）。✔、注釈なし。PS2 共通で v37+、recalibrate shot。タイムクライシスの中身は下の移植度
 - PS2 の Guncom 2 は欧州名。中身は Death Crimson OX。✔、注釈なし
 - Death Crimson OX のアーケード（ナオミ）は日本。✔、注釈なし。ドリームキャストは北米にも出た（サミー）。射撃 ✔、動作 ✔、注釈なし。PS2 欧州名が Guncom 2
 - Gunbuster はタイトー 1992。北米名は Operation Gunbuster。国内専用ではない。MAME ✔ / ✔、FBNeo ✔。注釈なし
@@ -190,7 +190,7 @@
 
 ### 本編は残るが落ちる
 
-- **タイムクライシス**（システム 22 → PS1）: 開発インタビュー（[shmuplations](https://shmuplations.com/timecrisis/)）は、システム 22 と PS の差が大きく、CD から RAM へ一度に載る量が制限だった、と書いている。ペダルはボタン（レーシングホイールのペダルも可）。Special は家庭用の別ミッション。画は筐体より粗い、という当時のレビュー。hypothesis: 2026-09-25 — PS2 のガンバリコレクションに入っているタイムクライシスは PS1 版のまま、というプレイ報告がある。ナムコの明示は未確認。
+- **タイムクライシス**（システム 22 → PS1 → ガンバリコレクション）: 開発インタビュー（[shmuplations](https://shmuplations.com/timecrisis/)）は、システム 22 と PS の差が大きく、CD から RAM へ一度に載る量が制限だった、と書いている。 [日本語版 Wikipedia](https://ja.wikipedia.org/wiki/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%B7%E3%82%B9) は、PS 版を秒間 30 フレーム、画質低下、それ以外はアーケードにほぼ忠実、と書いている。Special は家庭用の別ミッション。隠れる操作はガンコンのボタン。2P にコントローラを挿すと、その全ボタンがペダルになる。PS2 のガンバリコレクション（2002-12-12）は、ガンコン2 対応以外は PS 版そのままで、裏技もそのまま、と同じ記事が書いている。旧ガンコンとは非互換。 [ゲームカタログ@Wiki](https://w.atwiki.jp/gcmatome/pages/3189.html) は、ロードがわずかに短い以外は PS 版のベタ移植、と書いている。画の作り直しではない。
 - **バーチャコップ 2**（Model 2 → サターン）: [Sega-16 のハウス・オブ・ザ・デッド記事](https://www.sega-16.com/2020/08/house-of-the-dead/) は、サターン版を忠実だが近似、と書いている。ドリームキャスト版は PC 版が元で、フレームは滑らかだが、見た目はサターン上位どまり、という [GGDreamcast](https://www.ggdreamcast.com/games/virtua-cop-2)。PS2 の Elite Edition は 1 と 2 のセット。どの版を元にしたかは未確認。
 - **ハウス・オブ・ザ・デッド**（Model 2C → サターン）: 敵、分岐、ボイスは残る。テクスチャの粗さ、フレーム低下、ステージ途中のロードがある（[Sega-16](https://www.sega-16.com/2020/08/house-of-the-dead/)、[SEGA SATURN, SHIRO!](https://www.segasaturnshiro.com/2025/04/16/the-house-of-the-dead-bestofsaturnsilver/)）。Boss モード付き。血は緑が既定で、赤はコード。PC 版の方が画は近いが、マウス操作、という [Games Asylum](https://www.gamesasylum.com/2012/10/31/revisiting-the-house-of-the-dead-2/)。
 - **Area 51**（アーケード → サターン / PS）: サターンは画面の枠が常時あり、実写の解像度が下がり、場面の切り替わりに待ちがある（[Sega Retro](https://segaretro.org/Area_51)）。PS は全画面。PS は Justifier のみでガンコン非対応、サターンはその機のライトガンに対応、という [GameFAQs のトリビア](https://gamefaqs.gamespot.com/arcade/583717-area-51/trivia)。Maximum Force の家庭用差分は未確認。
