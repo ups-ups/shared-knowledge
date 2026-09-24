@@ -61,9 +61,7 @@ Winlator はサイドロードできるので、Google なしの Lite でも動�
 
 **Windows ゲーム（GameNative / Winlator）の上限（2026-09-25）:** メーカー仕様は Snapdragon 662（A73 2.1 GHz ×4 + A53 2.0 GHz ×4）、Adreno 610 1050 MHz、RAM 4 GB LPDDR4X、画面 5.5 インチ 1920×1080。このクラスは 2020 年のエントリースマホ向けで、Wine（Box64 か FEX）に DXVK を重ねる Windows ゲームは、3D や近年のタイトルではスペック不足になる。画面いっぱいに 1080p で描くとさらに重い。動く範囲は 2D や 2000 年代の軽い 3D を 540p〜800×600 まで落としたときで、Fallout 3 が 800×600 低設定でおおよそ 30 fps、という 2026-01 前後の Winlator 報告がある。同じチップの投稿者は「この用途向けのチップではない」と書いている。GammaOS にしてもこの天井は動かない。
 
-**女剣士アスカ見参！ for Windows（2002、DirectX 8、32bit）を GameNative で出すとき（2026-09-25）:** 原寸は 640×480。公式環境は Pentium III 600MHz / 128MB なので、Air X の性能側は足りる。コンテナは画面 640×480（小さければ 960×540）、Windows は XP、ドライバは VirGL、描画は WineD3D（DXVK は D3D9 以降向け）。ビデオメモリは 512MB。起動するファイルは `AsfPc.exe`（`Loader.exe` は OS 判定で止まる）。公式のオフラインパッチは [スパイク・チュンソフトの配布ページ](https://www.spike-chunsoft.co.jp/pages/games/asukapc/dl.html) の `AsfPCN1800.exe`。DirectPlay の案内が出たら一度キャンセルして再起動する。真っ黒なら Turnip + d3d8→9 + 古い DXVK（1.10 系）に替える。十字キーは矢印、決定は Enter に当てる。
-
-**月影村の怪物 インターネット版（2002、Pentium MMX 200MHz / 32MB、32bit）を GameNative で出すとき（2026-09-25）:** 公式環境は [サービス終了告知](https://www.spike-chunsoft.co.jp/pages/games/shirenpc/) にある。コンテナは画面 640×480、Windows は 98（固まったら 95）、ドライバは VirGL、描画は WineD3D。インストール先は `CHUNSOFT\ShirenV2`、v2.20 のインストーラは `ShrnSetup220.exe`。ゲーム内でネット機能を切る。ナギ救出より先は 2014-04-09 に止まった公式の認証サーバーが要る。認証を外す改造はここには書かない。ナギ救出までは、この設定のまま起動を確認できる。
+GameNative でアスカ見参と月影村を出す手順は [`gamenative-shiren.md`](./gamenative-shiren.md)。どちらも VirGL + WineD3D、640×480。実機確認はまだ。
 
 | | GammaOS Next | ROCKNIX | 純正 Android |
 |--|--------------|---------|--------------|

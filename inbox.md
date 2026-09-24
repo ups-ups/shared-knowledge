@@ -2,6 +2,7 @@
 
 未分類メモ。上が新しい。
 
+- 2026-09-25 アスカ見参と月影村の GameNative 詳細メモ → [`topics/handheld-cfw/gamenative-shiren.md`](./topics/handheld-cfw/gamenative-shiren.md)
 - 2026-09-25 月影村 Windows 版は VirGL + WineD3D、Windows 98、640×480 → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
 - 2026-09-25 アスカ見参 for Windows は VirGL + WineD3D、640×480、AsfPc.exe → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
 - 2026-09-25 Air X は PSP 以下を本線にする。GC / PS2 は一部だけ → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
