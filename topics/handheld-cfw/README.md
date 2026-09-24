@@ -63,6 +63,8 @@ Winlator はサイドロードできるので、Google なしの Lite でも動�
 
 **女剣士アスカ見参！ for Windows（2002、DirectX 8、32bit）を GameNative で出すとき（2026-09-25）:** 原寸は 640×480。公式環境は Pentium III 600MHz / 128MB なので、Air X の性能側は足りる。コンテナは画面 640×480（小さければ 960×540）、Windows は XP、ドライバは VirGL、描画は WineD3D（DXVK は D3D9 以降向け）。ビデオメモリは 512MB。起動するファイルは `AsfPc.exe`（`Loader.exe` は OS 判定で止まる）。公式のオフラインパッチは [スパイク・チュンソフトの配布ページ](https://www.spike-chunsoft.co.jp/pages/games/asukapc/dl.html) の `AsfPCN1800.exe`。DirectPlay の案内が出たら一度キャンセルして再起動する。真っ黒なら Turnip + d3d8→9 + 古い DXVK（1.10 系）に替える。十字キーは矢印、決定は Enter に当てる。
 
+**月影村の怪物 インターネット版（2002、Pentium MMX 200MHz / 32MB、32bit）を GameNative で出すとき（2026-09-25）:** 公式環境は [サービス終了告知](https://www.spike-chunsoft.co.jp/pages/games/shirenpc/) にある。コンテナは画面 640×480、Windows は 98（固まったら 95）、ドライバは VirGL、描画は WineD3D。インストール先は `CHUNSOFT\ShirenV2`、v2.20 のインストーラは `ShrnSetup220.exe`。ゲーム内でネット機能を切る。ナギ救出より先は 2014-04-09 に止まった公式の認証サーバーが要る。認証を外す改造はここには書かない。ナギ救出までは、この設定のまま起動を確認できる。
+
 | | GammaOS Next | ROCKNIX | 純正 Android |
 |--|--------------|---------|--------------|
 | 土台 | Android 14 / LineageOS 21 | Mainline Linux、Freedreno + Turnip、Sway + ES | 出荷 Android |
