@@ -2,6 +2,7 @@
 
 未分類メモ。上が新しい。
 
+- 2026-09-25 Batocera ライトガン表の注釈を国内版・名作のリストへ移した → [`topics/light-guns/README.md`](./topics/light-guns/README.md)
 - 2026-09-25 Batocera ライトガン表の国内版と海外名作 → [`topics/light-guns/README.md`](./topics/light-guns/README.md)
 - 2026-09-22 OpenClaw 導入見送り（Cursor Worker + cron で十分） → [`topics/openclaw/README.md`](./topics/openclaw/README.md)
 - 2026-09-22 運用の正本を GitHub（shared-knowledge）に集約する方針を明記 → [`topics/syncthing/README.md`](./topics/syncthing/README.md)
