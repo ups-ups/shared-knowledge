@@ -162,6 +162,55 @@
 - Sports Shooting USA: アトミスウェイブ ✔。V36+ pre-calibrated. V35: calibration required
 - Remington Great American Bird Hunt、Super Slam Hunting（Africa / Alaska / North America）: Wii ✔、注釈なし
 
+## 移植度
+
+ここはアーケード（または最初の家庭用）と、あとの移植で何が残るかを書いたもの。Batocera の動作注釈とは別。確認日 2026-09-25。
+
+ラベルは次の意味。
+
+- **筐体どおり:** 本編のステージとルールが残り、基板と家庭用が同じ系統か、比較記事がアーケードパーフェクトと書いている
+- **足してある:** 本編は残り、家庭用だけのモードがある
+- **落ちる:** 本編は残るが、解像度・ロード・フレーム・操作のどれかが文書として落ちている
+- **別構成:** ステージ数やルールが筐体と別
+- **未確認:** 移植があることだけ分かって、差分の出典が無い
+
+移植が無いもの（この表の範囲）: ゴルゴ13 の 3 作、ガンダム ファイナルシューティング、ルパン三世 THE SHOOTING、ガンバスター、オーシャンハンター、CarnEvil。デスクリムゾン 1（サターン）と 2（ドリームキャスト）、Project Titan、レスキューショット、エレメンタル ギアボルト、ヨッシーのロードハンティング、ダックハント、スペースバズーカは最初から家庭用なので、ここの対象外。
+
+### 筐体どおりで、家庭用が足してある
+
+- **ハウス・オブ・ザ・デッド 2**（ナオミ → ドリームキャスト）: 基板とドリームキャストが同じ系統。キャンペーンはほぼ同一、という [Hardcore Gaming 101 の Confidential Mission 記事](https://www.hardcoregaming101.net/confidential-mission/) と同じ世代の評価で、[Games Asylum](https://www.gamesasylum.com/2012/10/31/revisiting-the-house-of-the-dead-2/) はアーケードパーフェクトと書いている。家庭用には Original / Training / Boss がある。Wii の 2 & 3 Return は 2 と 3 のセット。
+- **コンフィデンシャルミッション**（ナオミ → ドリームキャスト）: [HG101](https://www.hardcoregaming101.net/confidential-mission/) は、画・音・キャンペーンがほぼ同一で、Partner Mode、Academy、Another World、銃の見た目、HUD 無しを足した、と書いている。
+- **バーチャコップ**（Model 2 → サターン）: [Sega-16](https://www.sega-16.com/2020/03/virtua-cop-saturn/) はほぼアーケードパーフェクト。足すのは射撃練習。本編の追加ステージは無い。
+- **ヴァンパイアナイト**（アーケード → PS2）: アーケードモードは 6 ステージのまま。Special で店、依頼、訓練、Hunter's Files が足される（[GameVortex](https://gamevortex.com/gamevortex/soft_rev.php/689)、[ファントムの Special Mode](https://thehouseofthedead.fandom.com/wiki/Special_Mode)）。
+- **タイムクライシス II**（アーケード → PS2）: [Wikipedia](https://en.wikipedia.org/wiki/Time_Crisis_II) は、画の強化、追加カットシーン、Crisis Mission、武器の解禁、二丁、Shoot Away II と Quick & Crash の収録を書いている。協力は画面分割か、i.Link で本体 2 台。筐体は筐体同士のリンク。
+- **タイムクライシス 3**（システム 246 → PS2）: 同じ基板世代。 [Wikipedia](https://en.wikipedia.org/wiki/Time_Crisis_3) は、アーケードに無いアリシア編（狙撃区間あり）と Crisis Mission を書いている。
+- **クライシスゾーン**（システム 23 → PS2、2004）: [Wikipedia](https://en.wikipedia.org/wiki/Crisis_Zone) は、ポリゴンとテクスチャの詳細化、難度上昇、ボイスの録り直し、6 か月後の 3 ステージ追加、武器の切り替え（弾数制限なし）、1 画面の Two-Gun、Crisis Mission を書いている。
+- **ポイントブランク**（アーケード → PS1）: アーケード全編に Quest、パーティ、トーナメントが足される（[Internet Archive の解説](https://archive.org/details/psx_ptblank)、[GameSpot](https://www.gamespot.com/reviews/point-blank-review/1900-2548935/)）。メニューとオートセーブの待ちは家庭用側（[Pixel Empire](https://www.thepixelempire.net/point-blank-ps-review.html)）。2 と 3 も家庭用モード付きの移植だが、個別の削りは未確認。
+- **ゴーストスカッド**（アーケード 2004 → Wii）: 本編は筐体が元。武器、衣装、分岐、パラダイス系のモードが足される（[IGN](https://www.ign.com/articles/2007/11/20/ghost-squad-review)、[GameSpot](https://www.gamespot.com/reviews/ghost-squad-review/1900-6183411/)）。3 ミッションは 20 分未満、という GameSpot の記述。
+
+### 本編は残るが落ちる
+
+- **タイムクライシス**（システム 22 → PS1）: 開発インタビュー（[shmuplations](https://shmuplations.com/timecrisis/)）は、システム 22 と PS の差が大きく、CD から RAM へ一度に載る量が制限だった、と書いている。ペダルはボタン（レーシングホイールのペダルも可）。Special は家庭用の別ミッション。画は筐体より粗い、という当時のレビュー。hypothesis: 2026-09-25 — PS2 のガンバリコレクションに入っているタイムクライシスは PS1 版のまま、というプレイ報告がある。ナムコの明示は未確認。
+- **バーチャコップ 2**（Model 2 → サターン）: [Sega-16 のハウス・オブ・ザ・デッド記事](https://www.sega-16.com/2020/08/house-of-the-dead/) は、サターン版を忠実だが近似、と書いている。ドリームキャスト版は PC 版が元で、フレームは滑らかだが、見た目はサターン上位どまり、という [GGDreamcast](https://www.ggdreamcast.com/games/virtua-cop-2)。PS2 の Elite Edition は 1 と 2 のセット。どの版を元にしたかは未確認。
+- **ハウス・オブ・ザ・デッド**（Model 2C → サターン）: 敵、分岐、ボイスは残る。テクスチャの粗さ、フレーム低下、ステージ途中のロードがある（[Sega-16](https://www.sega-16.com/2020/08/house-of-the-dead/)、[SEGA SATURN, SHIRO!](https://www.segasaturnshiro.com/2025/04/16/the-house-of-the-dead-bestofsaturnsilver/)）。Boss モード付き。血は緑が既定で、赤はコード。PC 版の方が画は近いが、マウス操作、という [Games Asylum](https://www.gamesasylum.com/2012/10/31/revisiting-the-house-of-the-dead-2/)。
+- **Area 51**（アーケード → サターン / PS）: サターンは画面の枠が常時あり、実写の解像度が下がり、場面の切り替わりに待ちがある（[Sega Retro](https://segaretro.org/Area_51)）。PS は全画面。PS は Justifier のみでガンコン非対応、サターンはその機のライトガンに対応、という [GameFAQs のトリビア](https://gamefaqs.gamespot.com/arcade/583717-area-51/trivia)。Maximum Force の家庭用差分は未確認。
+- **リーサルエンフォーサーズ**（アーケード → メガドライブ / セガ CD / スーファミ）: 背景を撃って壊す要素はほぼ無く、マグナムの扉貫通も無い。命中率不足や民間人誤射でステージやり直し。やられモーションは最後のコマだけ（[Just Games Retro](https://www.justgamesretro.com/genesis/lethal-enforcers)、[arcade-history のセガ CD](https://www.arcade-history.com/game/60754/)）。セガ CD はメガドライブ版に音楽を足した形で、血とステージ名は残る。スーファミは血の規制が強い。II の差分は未確認。
+- **オペレーションウルフ**（アーケード → NES / マスターシステム）: 8 ビットの短縮版。NES はステージが短く 6 面前後で、グレネードはボタン（表の注釈と同じ）。筐体の画面構成そのものではない。サンダーボルトの 16 ビット版の差分は未確認。
+
+### 実写レーザーディスク
+
+Mad Dog McCree、Mad Dog II、Crime Patrol、Drug Wars、Who Shot Johnny Rock?、Space Pirates、The Last Bounty Hunter は、筐体のレーザーディスク映像をセガ CD / 3DO に収めたもの。ゲームの分岐は同じ系統。解像度はディスク側の上限に落ちる。どの場面がカットされたかの一覧は未確認。Wii の Gunslinger Pack と PS3 版は後年の再収録。PS3 でリロードできない、は Batocera の注釈であり、製品版の移植度ではない。
+
+### 未確認（移植はある）
+
+- デスクリムゾン OX: ナオミのあとにドリームキャスト、PS2（欧州名 Guncom 2）。差分は未確認。1 と 2 は移植ではない。
+- ニンジャアサルト: ナオミと PS2。家庭用で何が足されるかは未確認。
+- ハウス・オブ・ザ・デッド 3: アーケードはキヒロ（Xbox 系）。家庭用の初出は Xbox で、Wii と PS3 にもある。画の差分は未確認。
+- ハウス・オブ・ザ・デッド 4 の PS3、Overkill の PS3、デッドスペース エクストラクションの PS3、バイオハザード・クロニクルズの PS3: 移植がある。製品版としての削りは未確認。表にある PS3 の照準やリロード不能は Batocera 側の注釈。
+- ヘンリーエクスプローラーズ（Crypt Killer）の PS / サターン、ターミネーター 2 アーケードゲームのメガドライブ / スーファミ、オー！バキューンの PS: 移植がある。差分は未確認。
+- ポリスノーツ: 起点は PC-98。3DO がリメイクで、PS とサターンが続く。ガンはサターンが純正、3DO は表ではポート 2、PS はパッチ。本編の削り比較は未確認。
+- エレメンタル ギアボルトの北米版: hypothesis: 2026-09-25 — ワーキングデザインズ版は日本版より難しい、というプレイ側の記述がある。開発元の明示は未確認。
+
 ## 上のリストに無いが、表に注釈があるもの
 
 国内版でも海外名作でもない。表の Notes 欄が空でないタイトル。
