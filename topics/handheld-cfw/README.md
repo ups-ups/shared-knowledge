@@ -55,7 +55,9 @@ Knulli の公開デバイス一覧には無い。候補は GammaOS Next、ROCKNI
 
 **方針（2026-09-24）:** 普段の OS は Android（GammaOS か純正）のままにする。残す理由は Winlator 系（Wine + Box64 + Turnip / DXVK）で Windows ゲームを動かすこと。ROCKNIX に切り替えると、そのセッションでは Winlator の APK とコンテナ設定が使えない。二重ブートなら Android 側の Winlator は消えないが、Linux 起動中は代わりにならない。
 
-Winlator はサイドロードできるので、Google なしの Lite でも動く。Play ストアの購入物を使うときだけ Full。Adreno 610 では軽いタイトルに限られ、解像度を下げる前提になる（例: Fallout 3 が 800×600 でおおよそ 30 fps、という 2026-01 前後の報告。Dead Space や Scott Pilgrim EX も Winlator で動いた報告がある）。
+Winlator はサイドロードできるので、Google なしの Lite でも動く。Play ストアの購入物を使うときだけ Full。
+
+**Windows ゲーム（GameNative / Winlator）の上限（2026-09-25）:** メーカー仕様は Snapdragon 662（A73 2.1 GHz ×4 + A53 2.0 GHz ×4）、Adreno 610 1050 MHz、RAM 4 GB LPDDR4X、画面 5.5 インチ 1920×1080。このクラスは 2020 年のエントリースマホ向けで、Wine（Box64 か FEX）に DXVK を重ねる Windows ゲームは、3D や近年のタイトルではスペック不足になる。画面いっぱいに 1080p で描くとさらに重い。動く範囲は 2D や 2000 年代の軽い 3D を 540p〜800×600 まで落としたときで、Fallout 3 が 800×600 低設定でおおよそ 30 fps、という 2026-01 前後の Winlator 報告がある。同じチップの投稿者は「この用途向けのチップではない」と書いている。GammaOS にしてもこの天井は動かない。
 
 | | GammaOS Next | ROCKNIX | 純正 Android |
 |--|--------------|---------|--------------|
