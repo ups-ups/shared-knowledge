@@ -2,6 +2,7 @@
 
 未分類メモ。上が新しい。
 
+- 2026-09-24 Air X v1.2 の Source code（zip）は README タグ。ファームは .7z → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
 - 2026-09-24 GammaOS のソースは GammaOSNextDistribution-14（汎用 GSI）。Air X のデバイスツリーは無い → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
 - 2026-09-24 GammaOS は v1.2 以降 v1.4.1 まで進んだが Air X ビルドは v1.2.0 のまま → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
 - 2026-09-24 Air X は Winlator（Wine）を残すため Android を本線にする → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
