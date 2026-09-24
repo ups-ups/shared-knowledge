@@ -88,7 +88,11 @@ Air X で Winlator を使うなら、届いても普段遊ぶのは通常 Androi
 
 hypothesis: 2026-09-24 — Reddit の「1.3 で Air X のファンと 3.5 mm が直る」は利用者コメントだけ。changelog の 1.3 以降に Air X のファン / ジャック項目は無い。issue 題の「1.2.7」は分割アーカイブ名 `v1.2.7z` の読み違いの可能性が高い。未検証。
 
-hypothesis: 2026-09-24 — 公開の [GammaOSNext](https://github.com/TheGammaSqueeze/GammaOSNext) は約 10MB で、中身は README、ライセンス、修正用 zip だけ。Lineage のデバイスツリーは入っていない。この状態で v1.4.1 を Air X 向けに改変してコンパイルし、起動するイメージまで出す見込みはごく小さい。1.4 系は frameworks 改変（Nano、OTA、GammaPad）なので、他機の APK を v1.2 に載せる方法でも入らない。必要なのは非公開のデバイスツリー、Qualcomm のベンダブロブ、フルビルド環境、MQ65 / MQ66 の実機での焼き直し。未検証。
+outdated: 2026-09-24 — 公開の GammaOSNext は README だけ、という記述。ソースは別リポジトリ。下を見る。
+
+[GammaOSNextDistribution-14](https://github.com/TheGammaSqueeze/GammaOSNextDistribution-14)（`develop`、2026-09-20 時点）が LineageOS 21 / Android 14 の GSI ソース。`frameworks/native/services/gammapad` や Nano のコミットがある。ビルド対象は `build.sh` の `lineage_arm64_bvN`（汎用 Treble の system イメージ）。`device/` に Mangmi / SM6115 / MQ65 / MQ66 は無い。`kernel/` は configs と prebuilts だけ。
+
+Air X のパネル、ファン、ジャック、GPU ドライバは v1.2 の QFIL 一式（vendor / boot）側に残る。このツリーから作れるのは新しい system イメージで、それを既存の v1.2 の上に載せて起動するかは未確認。この作業環境の空きは約 37GB で、ツリーの取得とフルビルドには足りない。
 - パッケージは **Full**（GApps あり）と **Lite**（Google サービスなし）。開発側の推奨はゲームと電池なら Lite。
 - v1.2.0 の記載: 新しい LCD、MQ65 / MQ66 を含む改訂、ストレージ容量表示、ES-DE のテーマ取得、GammaEQ。デバイス向けとして GPU ドライバを 2025 年版に更新（純正は 2024）、Netflix DRM、パネル 60 Hz、ガバナーとサーマル、Lite の電池。
 - 既存の GammaOS から v1.2.0 へはデータを残す更新手順がある。初回の QFIL は全消去。
