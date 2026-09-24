@@ -53,12 +53,16 @@ hypothesis: 2026-09-24 — H700 の「スリープでバッテリーが持たな
 
 Knulli の公開デバイス一覧には無い。候補は GammaOS Next、ROCKNIX、純正 Android。ROCKNIX は Android を消さず、SD から Linux を起動する二重ブート。
 
+**方針（2026-09-24）:** 普段の OS は Android（GammaOS か純正）のままにする。残す理由は Winlator 系（Wine + Box64 + Turnip / DXVK）で Windows ゲームを動かすこと。ROCKNIX に切り替えると、そのセッションでは Winlator の APK とコンテナ設定が使えない。二重ブートなら Android 側の Winlator は消えないが、Linux 起動中は代わりにならない。
+
+Winlator はサイドロードできるので、Google なしの Lite でも動く。Play ストアの購入物を使うときだけ Full。Adreno 610 では軽いタイトルに限られ、解像度を下げる前提になる（例: Fallout 3 が 800×600 でおおよそ 30 fps、という 2026-01 前後の報告。Dead Space や Scott Pilgrim EX も Winlator で動いた報告がある）。
+
 | | GammaOS Next | ROCKNIX | 純正 Android |
 |--|--------------|---------|--------------|
 | 土台 | Android 14 / LineageOS 21 | Mainline Linux、Freedreno + Turnip、Sway + ES | 出荷 Android |
 | 導入 | Windows の QFIL / EDL。**データは消える**。SN でパッケージが別 | SD に `SM6115` イメージ。Android 上で ABL をバックアップしてから焼く。起動時 Vol− で ABL に入り、機種を MQ65 / MQ66 にして Linux 起動 | 何もしない |
 | アプリ | Play ストア（Full）か、Google なし（Lite） | 無い。エミュと PortMaster | 出荷ランチャー + ストア |
-| 強み | スタンドアロンエミュ、配信、Android アプリ。ストック比で GPU ドライバ更新、60 Hz 固定、入力遅延とマイクロスタッター低減をうたう | 入力遅延が Android より小さい、という紹介。PortMaster。セーブ配置は ES 系に近い | メーカーサポートの範囲 |
+| 強み | Winlator 系の Windows ゲーム、スタンドアロンエミュ、配信。ストック比で GPU ドライバ更新、60 Hz 固定、入力遅延とマイクロスタッター低減をうたう | 入力遅延が Android より小さい、という紹介。PortMaster。セーブ配置は ES 系に近い | Winlator を含む Android アプリ。メーカーサポートの範囲 |
 
 ### GammaOS Next（Air X は v1.2.0）
 
@@ -73,7 +77,8 @@ Knulli の公開デバイス一覧には無い。候補は GammaOS Next、ROCKNI
 - 公式: [Air X](https://rocknix.org/devices/mangmi/air-x/)。Wi-Fi、Bluetooth（音声とコントローラー）、スティック LED、内部インストール手順、サスペンドは Fake suspend。
 - ABL を焼くので、ブートローダは Android 側と共有する。GammaOS 導入済みなら `backup_abl.sh` / `flash_abl.sh` は adb shell で実行する、と wiki にある。
 - 2026-06 に stable 対応が告知されている。wiki の導入文は「Latest Nightly の SM6115」と書いているので、落とすファイルはリリース一覧で stable か nightly かを見る。
-- GammaOS の上から入れると adb と SD のファイルシステムで詰まる、という 2026-06 の利用報告がある（exFAT 以外でマウントエラー、という 1 件）。性能は Android と大差ないが SD 起動で少し重い、スタンドアロンエミュの初期マッピングが未設定、という報告もある。PortMaster 目的なら選ぶ理由になる。
+- GammaOS の上から入れると adb と SD のファイルシステムで詰まる、という 2026-06 の利用報告がある（exFAT 以外でマウントエラー、という 1 件）。性能は Android と大差ないが SD 起動で少し重い、スタンドアロンエミュの初期マッピングが未設定、という報告もある。
+- PortMaster は Linux 側の利点だが、Winlator の代わりにはしない。Air X の本線は Android のまま。
 
 ## 機種をまたぐとき
 
