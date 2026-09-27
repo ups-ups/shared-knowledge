@@ -3,6 +3,11 @@
 未分類メモ。上が新しい。
 
 - 2026-09-25 RG35XX H はポケットと HDMI なら Knulli、コア設定を持つなら ROCKNIX → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
+- 2026-09-25 初代タイムクライシスはアーケードモードなら筐体、Special は家庭用 → [`topics/light-guns/README.md`](./topics/light-guns/README.md)
+- 2026-09-25 ガンバリコレクションのタイムクライシスは PS 版のまま、と Wikipedia を書く → [`topics/light-guns/README.md`](./topics/light-guns/README.md)
+- 2026-09-25 ライトガン移植版の残り方（筐体どおり / 落ちる / 未確認）を書いた → [`topics/light-guns/README.md`](./topics/light-guns/README.md)
+- 2026-09-25 Batocera ライトガン表の注釈を国内版・名作のリストへ移した → [`topics/light-guns/README.md`](./topics/light-guns/README.md)
+- 2026-09-25 Batocera ライトガン表の国内版と海外名作 → [`topics/light-guns/README.md`](./topics/light-guns/README.md)
 - 2026-09-25 アスカ見参と月影村の GameNative 詳細メモ → [`topics/handheld-cfw/gamenative-shiren.md`](./topics/handheld-cfw/gamenative-shiren.md)
 - 2026-09-25 月影村 Windows 版は VirGL + WineD3D、Windows 98、640×480 → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
 - 2026-09-25 アスカ見参 for Windows は VirGL + WineD3D、640×480、AsfPc.exe → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)
