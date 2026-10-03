@@ -22,7 +22,7 @@ if [ -n "$data_dir" ]; then
 else
   # 旧 `worker start` と、Computer Use 付きの起動の両方。
   # corp-analysis は --data-dir が入るのでここには一致しない。
-  pattern='/\.local/bin/agent --use-system-ca .*/index\.js worker( --computer-use --share-desktop)? start$'
+  pattern='/\.local/bin/agent --use-system-ca .*/index\.js worker( --computer-use --share-desktop view_and_control)? start$'
 fi
 
 if [ ! -x "$agent" ]; then
@@ -60,8 +60,8 @@ fi
 if [ -n "$name" ]; then
   set -- "$@" --name "$name"
 fi
-# フラグは start より前。--share-desktop の既定は view_and_control。
-set -- "$@" --computer-use --share-desktop
+# この CLI は --share-desktop の次の語をモードとして読む。start を渡すと起動に失敗する。
+set -- "$@" --computer-use --share-desktop view_and_control
 set -- "$@" start
 
 echo "starting agent worker in $workdir" >&2

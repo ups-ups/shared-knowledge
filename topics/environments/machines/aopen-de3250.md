@@ -36,7 +36,7 @@ user systemd の linger は既に有効（`loginctl show-user k -p Linger` が `
 
 | ワークスペース | unit | 起動 |
 |----------------|------|------|
-| `shared-knowledge` | `cursor-my-machines-worker.service` | `agent worker --computer-use --share-desktop start` |
+| `shared-knowledge` | `cursor-my-machines-worker.service` | `agent worker --computer-use --share-desktop view_and_control start` |
 | `corp-analysis` | `cursor-my-machines-worker-corp-analysis.service` | 上に `--data-dir`、`--worker-dir /home/k/src/corp-analysis`、`--name '~/src/corp-analysis @ DE3250'` を足す |
 
 スクリプトは両方とも `~/.local/bin/cursor-my-machines-worker`。正本は [`de3250-cursor-my-machines-worker.sh`](./de3250-cursor-my-machines-worker.sh)、[`de3250-cursor-my-machines-worker.service`](./de3250-cursor-my-machines-worker.service)、[`de3250-cursor-my-machines-worker-corp-analysis.service`](./de3250-cursor-my-machines-worker-corp-analysis.service)。
@@ -69,7 +69,7 @@ Cursor アプリで corp-analysis を開くと、アプリが別 data dir でも
 
 ### Computer Use とデスクトップ共有
 
-2026-10-03 から両方の unit に `--computer-use --share-desktop` を付けた。Cursor の標準機能だが、worker 起動時の明示オプションで、サーバからは有効にならない。
+2026-10-03 から両方の unit に `--computer-use --share-desktop view_and_control` を付けた。モードを省くと、この CLI は次の `start` をモードとして読んで起動に失敗する。Cursor の標準機能だが、worker 起動時の明示オプションで、サーバからは有効にならない。
 
 - **Computer Use** — agent がスクリーンショット、クリック、キー入力で GUI を操作する。ブラウザは `chromium`
 - **デスクトップ共有** — 許可された人が Cursor から、worker 専用のデスクトップを見て操作する。既定は `view_and_control`。クリップボード転送は止まったまま
