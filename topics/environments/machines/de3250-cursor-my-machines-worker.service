@@ -11,6 +11,7 @@ Environment=LANG=ja_JP.UTF-8
 Environment=PATH=/home/k/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 Environment=CURSOR_WORKER_DIR=/home/k/src/shared-knowledge
 EnvironmentFile=-/home/k/.config/cursor/worker.env
+UnsetEnvironment=DISPLAY XAUTHORITY
 ExecStart=/home/k/.local/bin/cursor-my-machines-worker
 Restart=always
 RestartSec=15

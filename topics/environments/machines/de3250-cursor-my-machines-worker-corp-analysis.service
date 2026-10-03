@@ -13,6 +13,7 @@ Environment=CURSOR_WORKER_DIR=/home/k/src/corp-analysis
 Environment=CURSOR_WORKER_DATA_DIR=/home/k/.local/share/cursor-agent/workers/corp-analysis
 Environment="CURSOR_WORKER_NAME=~/src/corp-analysis @ DE3250"
 EnvironmentFile=-/home/k/.config/cursor/worker.env
+UnsetEnvironment=DISPLAY XAUTHORITY
 ExecStart=/home/k/.local/bin/cursor-my-machines-worker
 Restart=always
 RestartSec=15

@@ -36,8 +36,8 @@ user systemd の linger は既に有効（`loginctl show-user k -p Linger` が `
 
 | ワークスペース | unit | 起動 |
 |----------------|------|------|
-| `shared-knowledge` | `cursor-my-machines-worker.service` | `agent worker start`（追加フラグなし） |
-| `corp-analysis` | `cursor-my-machines-worker-corp-analysis.service` | `agent worker --data-dir ~/.local/share/cursor-agent/workers/corp-analysis --worker-dir /home/k/src/corp-analysis --name '~/src/corp-analysis @ DE3250' start` |
+| `shared-knowledge` | `cursor-my-machines-worker.service` | `agent worker --computer-use --share-desktop start` |
+| `corp-analysis` | `cursor-my-machines-worker-corp-analysis.service` | 上に `--data-dir`、`--worker-dir /home/k/src/corp-analysis`、`--name '~/src/corp-analysis @ DE3250'` を足す |
 
 スクリプトは両方とも `~/.local/bin/cursor-my-machines-worker`。正本は [`de3250-cursor-my-machines-worker.sh`](./de3250-cursor-my-machines-worker.sh)、[`de3250-cursor-my-machines-worker.service`](./de3250-cursor-my-machines-worker.service)、[`de3250-cursor-my-machines-worker-corp-analysis.service`](./de3250-cursor-my-machines-worker-corp-analysis.service)。
 
@@ -63,9 +63,21 @@ Cursor アプリで corp-analysis を開くと、アプリが別 data dir でも
 
 ### Cursor アプリとターミナル
 
-どちらも My Machines の `agent worker start`。Cloud Agent から見たファイル編集、シェル、そのマシン上のツールは同じ。Computer Use とデスクトップ共有は、アプリ起動にもターミナル起動にも付いていない。
+どちらも My Machines の `agent worker start`。Cloud Agent から見たファイル編集、シェル、そのマシン上のツールは同じ。
 
 アプリ起動が足しているのは、ウィンドウが worker の状態を見るローカルソケット（`--worker-api-socket`）とラベル、表示名。systemd はソケットとラベルを付けない。表示名だけ、アプリと同じ `~/src/corp-analysis @ DE3250` に揃える。
+
+### Computer Use とデスクトップ共有
+
+2026-10-03 から両方の unit に `--computer-use --share-desktop` を付けた。Cursor の標準機能だが、worker 起動時の明示オプションで、サーバからは有効にならない。
+
+- **Computer Use** — agent がスクリーンショット、クリック、キー入力で GUI を操作する。ブラウザは `chromium`
+- **デスクトップ共有** — 許可された人が Cursor から、worker 専用のデスクトップを見て操作する。既定は `view_and_control`。クリップボード転送は止まったまま
+- ログイン中の XFCE / xrdp 画面は対象にしない。unit は `DISPLAY` と `XAUTHORITY` を外し、worker が TigerVNC 上に Xfce を起動する
+- 追加パッケージ: `ffmpeg`、`tigervnc-standalone-server`、`chromium`。`xfce4` と `xdotool` は元から入っていた
+- 手順の正本: [Computer use and desktop sharing](https://cursor.com/docs/cloud-agent/self-hosted/computer-use)
+
+この会話を載せている shared-knowledge の既存プロセスには、置き換わるまでフラグが付かない。corp-analysis は Cursor アプリ側の worker が終わったあと、systemd がフラグ付きで起動する。
 
 ### 載せたことでできるようになったこと
 
@@ -74,9 +86,7 @@ Cursor アプリで corp-analysis を開くと、アプリが別 data dir でも
 
 ### Worker 単体では自動化されないもの
 
-- **Computer Use（画面操作）** — Linux デスクトップパッケージの追加セットアップが必要
-
-セットアップ手順の正本は Cursor docs。
+Computer Use とデスクトップ共有は上の節のとおり unit に付けた。ログイン中の画面そのものを操作する設定にはしていない。
 
 ### OpenClaw との関係
 
@@ -96,6 +106,7 @@ Cursor アプリで corp-analysis を開くと、アプリが別 data dir でも
 
 ## 変更履歴
 
+- 2026-10-03: Computer Use とデスクトップ共有を両方の worker unit に付けた（専用デスクトップ）
 - 2026-10-03: corp-analysis の My Machines worker も同じ user systemd で戻す
 - 2026-10-03: shared-knowledge の My Machines worker を user systemd で再起動後に戻す
 - 2026-09-21: Syncthing 導入（USB-HDD マスター、運用方針ドキュメント）

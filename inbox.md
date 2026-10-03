@@ -2,6 +2,7 @@
 
 未分類メモ。上が新しい。
 
+- 2026-10-03 DE3250 の worker に Computer Use とデスクトップ共有を付けた → [`topics/environments/machines/aopen-de3250.md`](./topics/environments/machines/aopen-de3250.md)
 - 2026-10-03 DE3250 の corp-analysis worker も shared-knowledge と同じ user systemd で戻す → [`topics/environments/machines/aopen-de3250.md`](./topics/environments/machines/aopen-de3250.md)
 - 2026-10-03 DE3250 の My Machines worker を再起動後に user systemd で戻す → [`topics/environments/machines/aopen-de3250.md`](./topics/environments/machines/aopen-de3250.md)
 - 2026-09-25 RG35XX H はポケットと HDMI なら Knulli、コア設定を持つなら ROCKNIX → [`topics/handheld-cfw/README.md`](./topics/handheld-cfw/README.md)

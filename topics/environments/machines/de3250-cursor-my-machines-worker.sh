@@ -1,10 +1,11 @@
 #!/bin/sh
 # DE3250 の Cursor My Machines worker を起動する。
 # 正本はこのファイル。実体は ~/.local/bin/cursor-my-machines-worker に置く。
-# 認証は agent login 済みの ~/.config/cursor/auth.json を使う。鍵は書かない。
+# 認証は ~/.config/cursor/worker.env の CURSOR_API_KEY。鍵はリポジトリに書かない。
 #
-# 未設定時は shared-knowledge を、ターミナルで動かしていたのと同じ
-# `agent worker start`（追加フラグなし）で起動する。
+# 未設定時は shared-knowledge を起動する。
+# Computer Use とデスクトップ共有は両方の worker に付ける。
+# ログイン中の XFCE を操作しないよう、unit 側で DISPLAY を外す。
 # corp-analysis は unit から CURSOR_WORKER_DIR / CURSOR_WORKER_DATA_DIR /
 # CURSOR_WORKER_NAME を渡す。data dir を分けるのは、同じ data dir の
 # worker.lock を二つ同時に取れないため。
@@ -19,8 +20,9 @@ if [ -n "$data_dir" ]; then
   # IDE 起動（--worker-dir）と、このスクリプトの起動の両方に一致させる。
   pattern="--worker-dir ${workdir}"
 else
-  # `worker start` で終わる CLI だけ。IDE の corp-analysis worker には一致させない。
-  pattern='/\.local/bin/agent --use-system-ca .*/index\.js worker start$'
+  # 旧 `worker start` と、Computer Use 付きの起動の両方。
+  # corp-analysis は --data-dir が入るのでここには一致しない。
+  pattern='/\.local/bin/agent --use-system-ca .*/index\.js worker( --computer-use --share-desktop)? start$'
 fi
 
 if [ ! -x "$agent" ]; then
@@ -58,6 +60,8 @@ fi
 if [ -n "$name" ]; then
   set -- "$@" --name "$name"
 fi
+# フラグは start より前。--share-desktop の既定は view_and_control。
+set -- "$@" --computer-use --share-desktop
 set -- "$@" start
 
 echo "starting agent worker in $workdir" >&2
