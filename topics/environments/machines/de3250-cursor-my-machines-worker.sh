@@ -41,9 +41,10 @@ while [ "$i" -lt 60 ]; do
   sleep 2
 done
 
-if pgrep -u "$(id -u)" -f "$pattern" >/dev/null 2>&1; then
+# パターンが `--` で始まるので、pgrep のオプション区切りが必要。
+if pgrep -u "$(id -u)" -f -- "$pattern" >/dev/null 2>&1; then
   echo "worker already running for $workdir; waiting to take over" >&2
-  while pgrep -u "$(id -u)" -f "$pattern" >/dev/null 2>&1; do
+  while pgrep -u "$(id -u)" -f -- "$pattern" >/dev/null 2>&1; do
     sleep 15
   done
 fi

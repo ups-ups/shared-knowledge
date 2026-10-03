@@ -19,7 +19,7 @@ AOpen DE3250（ファンレス小型機）。メモリのみ増設、他は標�
 
 2026-09-20 から Cursor Cloud Agent の実行先として登録。推論・計画は Cursor 側、ファイル編集・シェルは DE3250 上で動く（[Self-Hosted Machines](https://cursor.com/docs/cloud-agent/bring-your-own-machine)）。
 
-### 登録 Worker（shared-knowledge）
+### 登録 Worker
 
 | Worker | ワークスペース | 用途 |
 |--------|----------------|------|
@@ -39,7 +39,9 @@ user systemd の linger は既に有効（`loginctl show-user k -p Linger` が `
 | `shared-knowledge` | `cursor-my-machines-worker.service` | `agent worker start`（追加フラグなし） |
 | `corp-analysis` | `cursor-my-machines-worker-corp-analysis.service` | `agent worker --data-dir ~/.local/share/cursor-agent/workers/corp-analysis --worker-dir /home/k/src/corp-analysis --name '~/src/corp-analysis @ DE3250' start` |
 
-スクリプトは両方とも `~/.local/bin/cursor-my-machines-worker`。正本は [`de3250-cursor-my-machines-worker.sh`](./de3250-cursor-my-machines-worker.sh)、[`de3250-cursor-my-machines-worker.service`](./de3250-cursor-my-machines-worker.service)、[`de3250-cursor-my-machines-worker-corp-analysis.service`](./de3250-cursor-my-machines-worker-corp-analysis.service)。認証は既存の `agent login`（`~/.config/cursor/auth.json`）。unit に鍵は書かない。
+スクリプトは両方とも `~/.local/bin/cursor-my-machines-worker`。正本は [`de3250-cursor-my-machines-worker.sh`](./de3250-cursor-my-machines-worker.sh)、[`de3250-cursor-my-machines-worker.service`](./de3250-cursor-my-machines-worker.service)、[`de3250-cursor-my-machines-worker-corp-analysis.service`](./de3250-cursor-my-machines-worker-corp-analysis.service)。
+
+認証は unit に書かない。両方の unit が `EnvironmentFile=-/home/k/.config/cursor/worker.env`（`CURSOR_API_KEY`、mode 600、git には入れない）を読む。2026-10-03 に corp-analysis 用 unit を一度起動したとき、CLI が `~/.config/cursor/auth.json` を消し、`agent status` は未ログインになった。既に繋がっている worker プロセスはそのまま動く。ファイルを戻すには、ターミナルで `agent login` する。systemd の再起動後起動は `worker.env` の API key で足りる。
 
 入れ直し:
 
