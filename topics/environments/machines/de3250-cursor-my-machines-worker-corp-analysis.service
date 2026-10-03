@@ -1,15 +1,17 @@
 [Unit]
-Description=Cursor My Machines worker (shared-knowledge on DE3250)
+Description=Cursor My Machines worker (corp-analysis on DE3250)
 Documentation=https://cursor.com/docs/cloud-agent/self-hosted-guides/my-machines
 StartLimitIntervalSec=0
 
 [Service]
 Type=simple
-WorkingDirectory=/home/k/src/shared-knowledge
+WorkingDirectory=/home/k/src/corp-analysis
 Environment=HOME=/home/k
 Environment=LANG=ja_JP.UTF-8
 Environment=PATH=/home/k/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
-Environment=CURSOR_WORKER_DIR=/home/k/src/shared-knowledge
+Environment=CURSOR_WORKER_DIR=/home/k/src/corp-analysis
+Environment=CURSOR_WORKER_DATA_DIR=/home/k/.local/share/cursor-agent/workers/corp-analysis
+Environment="CURSOR_WORKER_NAME=~/src/corp-analysis @ DE3250"
 ExecStart=/home/k/.local/bin/cursor-my-machines-worker
 Restart=always
 RestartSec=15

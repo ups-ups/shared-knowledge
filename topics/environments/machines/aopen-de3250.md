@@ -23,9 +23,8 @@ AOpen DE3250（ファンレス小型機）。メモリのみ増設、他は標�
 
 | Worker | ワークスペース | 用途 |
 |--------|----------------|------|
-| `DE3250#/home/k/src/shared-knowledge` | `shared-knowledge` | 共有ナレッジ |
-
-同一マシン上に別リポ用 Worker もある。詳細は各リポ側 docs を見る。
+| `DE3250`（`--name` なし、cwd が識別子） | `shared-knowledge` | 共有ナレッジ |
+| `~/src/corp-analysis @ DE3250` | `corp-analysis` | 投資分析 |
 
 `sharedAssignmentAllowed: true` — 同一マシン上で複数エージェントを並行実行可能。
 
@@ -35,13 +34,12 @@ AOpen DE3250（ファンレス小型機）。メモリのみ増設、他は標�
 
 user systemd の linger は既に有効（`loginctl show-user k -p Linger` が `yes`）。ログイン前でも `default.target` が動くので、同じ起動を unit に載せた。
 
-| 項目 | 値 |
-|------|-----|
-| unit | `~/.config/systemd/user/cursor-my-machines-worker.service` |
-| スクリプト | `~/.local/bin/cursor-my-machines-worker` |
-| 正本 | [`de3250-cursor-my-machines-worker.service`](./de3250-cursor-my-machines-worker.service)、[`de3250-cursor-my-machines-worker.sh`](./de3250-cursor-my-machines-worker.sh) |
-| コマンド | `agent worker start`（追加フラグなし、cwd は shared-knowledge） |
-| 認証 | 既存の `agent login`（`~/.config/cursor/auth.json`）。unit に鍵は書かない |
+| ワークスペース | unit | 起動 |
+|----------------|------|------|
+| `shared-knowledge` | `cursor-my-machines-worker.service` | `agent worker start`（追加フラグなし） |
+| `corp-analysis` | `cursor-my-machines-worker-corp-analysis.service` | `agent worker --data-dir ~/.local/share/cursor-agent/workers/corp-analysis --worker-dir /home/k/src/corp-analysis --name '~/src/corp-analysis @ DE3250' start` |
+
+スクリプトは両方とも `~/.local/bin/cursor-my-machines-worker`。正本は [`de3250-cursor-my-machines-worker.sh`](./de3250-cursor-my-machines-worker.sh)、[`de3250-cursor-my-machines-worker.service`](./de3250-cursor-my-machines-worker.service)、[`de3250-cursor-my-machines-worker-corp-analysis.service`](./de3250-cursor-my-machines-worker-corp-analysis.service)。認証は既存の `agent login`（`~/.config/cursor/auth.json`）。unit に鍵は書かない。
 
 入れ直し:
 
@@ -50,13 +48,22 @@ install -m 755 topics/environments/machines/de3250-cursor-my-machines-worker.sh 
   ~/.local/bin/cursor-my-machines-worker
 install -m 644 topics/environments/machines/de3250-cursor-my-machines-worker.service \
   ~/.config/systemd/user/cursor-my-machines-worker.service
+install -m 644 topics/environments/machines/de3250-cursor-my-machines-worker-corp-analysis.service \
+  ~/.config/systemd/user/cursor-my-machines-worker-corp-analysis.service
 systemctl --user daemon-reload
 systemctl --user enable --now cursor-my-machines-worker.service
+systemctl --user enable --now cursor-my-machines-worker-corp-analysis.service
 ```
 
-同じ CLI worker が既にいるときはスクリプトが終了を待ち、終わってから引き取る。導入時に動いているプロセスは止めない。確認は `systemctl --user status cursor-my-machines-worker.service` と `journalctl --user -u cursor-my-machines-worker.service`。
+そのワークスペースの worker が既にいるときはスクリプトが終了を待ち、終わってから引き取る。導入時に動いているプロセスは止めない。確認は `systemctl --user status 'cursor-my-machines-worker*'` と `journalctl --user -u cursor-my-machines-worker-corp-analysis.service`。
 
-Cursor IDE が `globalStorage` から起動している corp-analysis 用 worker は別プロセス（別の data dir、表示名 `~/src/corp-analysis @ DE3250`）。この unit の対象外。再起動後は Cursor でそのワークスペースを開くまで戻らない。
+Cursor アプリで corp-analysis を開くと、アプリが別 data dir でもう一つ worker を起動することがある。再起動後に常駐するのは systemd 側。
+
+### Cursor アプリとターミナル
+
+どちらも My Machines の `agent worker start`。Cloud Agent から見たファイル編集、シェル、そのマシン上のツールは同じ。Computer Use とデスクトップ共有は、アプリ起動にもターミナル起動にも付いていない。
+
+アプリ起動が足しているのは、ウィンドウが worker の状態を見るローカルソケット（`--worker-api-socket`）とラベル、表示名。systemd はソケットとラベルを付けない。表示名だけ、アプリと同じ `~/src/corp-analysis @ DE3250` に揃える。
 
 ### 載せたことでできるようになったこと
 
@@ -87,6 +94,7 @@ Cursor IDE が `globalStorage` から起動している corp-analysis 用 worker
 
 ## 変更履歴
 
+- 2026-10-03: corp-analysis の My Machines worker も同じ user systemd で戻す
 - 2026-10-03: shared-knowledge の My Machines worker を user systemd で再起動後に戻す
 - 2026-09-21: Syncthing 導入（USB-HDD マスター、運用方針ドキュメント）
 - 2026-09-21: Private Worker 節から他リポへのリンク・詳細を除去（shared-knowledge 向けに整理）
