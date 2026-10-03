@@ -1,0 +1,18 @@
+[Unit]
+Description=Cursor My Machines worker (shared-knowledge on DE3250)
+Documentation=https://cursor.com/docs/cloud-agent/self-hosted-guides/my-machines
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=/home/k/src/shared-knowledge
+Environment=HOME=/home/k
+Environment=LANG=ja_JP.UTF-8
+Environment=PATH=/home/k/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+ExecStart=/home/k/.local/bin/cursor-my-machines-worker
+Restart=always
+RestartSec=15
+TimeoutStopSec=30
+
+[Install]
+WantedBy=default.target
